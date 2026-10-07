@@ -14,6 +14,7 @@ const router = createRouter({
     { path: '/guestbook', name: 'guestbook', component: () => import('../views/GuestbookView.vue') },
     { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue') },
     { path: '/links', name: 'links', component: () => import('../views/LinksView.vue') },
+    { path: '/:pathMatch(.*)', name: 'NotFound', component: () => import('../views/NotFoundView.vue') },
   ],
   scrollBehavior() {
     return { top: 0 }

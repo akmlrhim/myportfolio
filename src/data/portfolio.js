@@ -205,6 +205,9 @@ export const translations = {
       linksDesc: 'Find me on other platforms.',
       comingSoon: 'Coming Soon',
       underDevelopment: 'This page is under development.',
+      notFound: 'Page Not Found',
+      notFoundDesc: 'The page you are looking for does not exist.',
+      goHome: 'Go Home',
     },
     contactCards: {
       gmail: {
@@ -306,6 +309,9 @@ export const translations = {
       linksDesc: 'Temukan saya di platform lain.',
       comingSoon: 'Segera Hadir',
       underDevelopment: 'Halaman ini sedang dalam pengembangan.',
+      notFound: 'Halaman Tidak Ditemukan',
+      notFoundDesc: 'Halaman yang Anda cari tidak ditemukan.',
+      goHome: 'Kembali ke Beranda',
     },
     contactCards: {
       gmail: {

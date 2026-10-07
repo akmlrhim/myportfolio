@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion-v'
 import DefaultLayout from './components/templates/DefaultLayout.vue'
 import PageSkeleton from './components/organisms/PageSkeleton.vue'
 import router from './router'
+import { pageview } from '@vercel/analytics'
 
 const route = useRoute()
 const routeLoading = ref(false)
@@ -12,8 +13,9 @@ const routeLoading = ref(false)
 router.beforeEach((to) => {
   if (to.path !== route.path) routeLoading.value = true
 })
-router.afterEach(() => {
+router.afterEach((to) => {
   routeLoading.value = false
+  pageview({ route: to.path })
 })
 </script>
 
