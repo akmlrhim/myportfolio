@@ -1,0 +1,118 @@
+{
+  "allTimeSeconds": 87349,
+  "totalSeconds": 87349,
+  "daily": [
+    {
+      "date": "2026-09-30",
+      "seconds": 0
+    },
+    {
+      "date": "2026-10-01",
+      "seconds": 3962
+    },
+    {
+      "date": "2026-10-02",
+      "seconds": 14786
+    },
+    {
+      "date": "2026-10-03",
+      "seconds": 21294
+    },
+    {
+      "date": "2026-10-04",
+      "seconds": 0
+    },
+    {
+      "date": "2026-10-05",
+      "seconds": 28421
+    },
+    {
+      "date": "2026-10-06",
+      "seconds": 18887
+    }
+  ],
+  "languages": [
+    {
+      "name": "TypeScript",
+      "seconds": 24072,
+      "color": "#3178C6"
+    },
+    {
+      "name": "PHP",
+      "seconds": 23695,
+      "color": "#777BB4"
+    },
+    {
+      "name": "Markdown",
+      "seconds": 9390,
+      "color": "#083FA1"
+    },
+    {
+      "name": "Blade Template",
+      "seconds": 8064,
+      "color": "#FF2D20"
+    },
+    {
+      "name": "Vue",
+      "seconds": 6937,
+      "color": "#42B883"
+    },
+    {
+      "name": "JavaScript",
+      "seconds": 3365,
+      "color": "#F7DF1E"
+    },
+    {
+      "name": "Bash",
+      "seconds": 2599,
+      "color": "#4EAA25"
+    },
+    {
+      "name": "YAML",
+      "seconds": 2095,
+      "color": "#CB171E"
+    },
+    {
+      "name": "CSS",
+      "seconds": 2022,
+      "color": "#563D7C"
+    },
+    {
+      "name": "Python",
+      "seconds": 1914,
+      "color": "#3572A5"
+    },
+    {
+      "name": "Other",
+      "seconds": 1584,
+      "color": "#7C8794"
+    },
+    {
+      "name": "Git Config",
+      "seconds": 794,
+      "color": "#F05032"
+    },
+    {
+      "name": "JSON",
+      "seconds": 591,
+      "color": "#292929"
+    },
+    {
+      "name": "HTML",
+      "seconds": 230,
+      "color": "#E34F26"
+    },
+    {
+      "name": "INI",
+      "seconds": 1,
+      "color": "#D1DBDB"
+    }
+  ],
+  "editors": [
+    {
+      "name": "VS Code",
+      "seconds": 87349,
+      "color": "#2563eb"
+    }
+  ]
+}
