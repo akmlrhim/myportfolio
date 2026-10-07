@@ -12,17 +12,29 @@ const el = ref(null)
 const shown = ref(false)
 let observer = null
 
+function getDOM(target) {
+  if (!target) return null
+  if (target instanceof Element) return target
+  const dom = target.$el
+  return dom instanceof Element ? dom : null
+}
+
 onMounted(() => {
-  observer = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry.isIntersecting) return
-      shown.value = true
-      observer.disconnect()
-      observer = null
-    },
-    { rootMargin: '-40px' },
-  )
-  if (el.value) observer.observe(el.value)
+  const target = getDOM(el.value)
+  if (target) {
+    observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        shown.value = true
+        observer.disconnect()
+        observer = null
+      },
+      { rootMargin: '-40px' },
+    )
+    observer.observe(target)
+  } else {
+    shown.value = true
+  }
 })
 
 onUnmounted(() => {
