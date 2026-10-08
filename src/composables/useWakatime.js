@@ -2,16 +2,14 @@ import { ref, onMounted } from 'vue'
 import { statsConfig } from '@/data/stats'
 import localData from '@/data/wakatime.json'
 
-// API key comes from the build environment (Vite config maps WAKATIME_API →
-// import.meta.env.WAKATIME_API). Empty key falls back to the bundled dataset.
-const API_KEY = import.meta.env.WAKATIME_API || import.meta.env.VITE_WAKATIME_API || ''
+// All requests hit the same relative path: Vite's dev server proxies it in
+// dev (see vite.config.js), and the Vercel function at api/wakatime/ serves
+// it in production. The WakaTime API key never reaches the browser bundle.
+const API_BASE = '/api/wakatime'
 const SHARE_URL = statsConfig.wakatimeShareUrl
 
-const API_BASE = import.meta.env.DEV
-  ? '/api/wakatime'
-  : 'https://api.wakatime.com/api/v1'
-const SUMMARIES_API = `${API_BASE}/users/current/summaries?range=last_7_days`
-const ALL_TIME_API = `${API_BASE}/users/current/all_time_since_today`
+const SUMMARIES_API = `${API_BASE}/summaries?range=last_7_days`
+const ALL_TIME_API = `${API_BASE}/all-time`
 
 const LANG_COLORS = {
   TypeScript: '#3178C6',
@@ -31,8 +29,6 @@ const LANG_COLORS = {
   INI: '#D1DBDB',
   Kotlin: '#7F52FF',
 }
-
-const authHeaders = () => ({ Authorization: `Basic ${btoa(API_KEY)}` })
 
 // Aggregate raw WakaTime day entries into
 // { totalSeconds, daily, languages, editors }
@@ -73,7 +69,7 @@ function aggregateDays(days) {
   }
 }
 
-// Accepts `{ data: [...] }` (live summaries), `{ data: { days: [...] } }` /
+// Accepts { data: [...] } (live summaries), { data: { days: [...] } } /
 // plain dashboard JSON (share embeds / local export).
 function normalize(raw) {
   const body = raw?.data ?? raw
@@ -87,8 +83,8 @@ function normalize(raw) {
 
 async function loadFromApi() {
   const [summaryRes, allTimeRes] = await Promise.all([
-    fetch(SUMMARIES_API, { headers: authHeaders() }),
-    fetch(ALL_TIME_API, { headers: authHeaders() }).catch(() => null),
+    fetch(SUMMARIES_API),
+    fetch(ALL_TIME_API).catch(() => null),
   ])
   if (!summaryRes.ok) throw new Error(`WakaTime API: ${summaryRes.status}`)
 
@@ -114,13 +110,12 @@ export function useWakatime() {
   const data = ref(null)
 
   onMounted(async () => {
-    if (API_KEY) {
-      try {
-        data.value = await loadFromApi()
-      } catch (e) {
-        error.value = e.message
-      }
-    } else if (SHARE_URL) {
+    try {
+      data.value = await loadFromApi()
+    } catch (e) {
+      error.value = e.message
+    }
+    if (!data.value && SHARE_URL) {
       try {
         data.value = await loadFromShare()
       } catch (e) {

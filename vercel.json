@@ -3,7 +3,18 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/wakatime/summaries",
+      "destination": "/api/wakatime?__endpoint=summaries"
+    },
+    {
+      "source": "/api/wakatime/all-time",
+      "destination": "/api/wakatime?__endpoint=all-time"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {

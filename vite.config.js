@@ -8,15 +8,10 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  // Accept both the bare WAKATIME_API name (shell/CI env or .env) and the
-  // Vite-conventional VITE_WAKATIME_API.
   const wakatimeApi = env.WAKATIME_API || env.VITE_WAKATIME_API || process.env.WAKATIME_API || ''
 
   return {
     plugins: [vue(), vueDevTools(), tailwindcss()],
-    define: {
-      'import.meta.env.WAKATIME_API': JSON.stringify(wakatimeApi),
-    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -45,7 +40,20 @@ export default defineConfig(({ mode }) => {
         '/api/wakatime': {
           target: 'https://api.wakatime.com/api/v1',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/wakatime/, ''),
+          rewrite: (path) => {
+            // `path` includes the query string, so split it before matching.
+            const [route, query = ''] = path.replace(/^\/api\/wakatime/, '').split('?')
+            const upstream =
+              route === '/all-time'
+                ? '/users/current/all_time_since_today'
+                : '/users/current/summaries'
+            return query ? `${upstream}?${query}` : upstream
+          },
+          // Inject auth server-side so the API key never reaches the browser
+          // (mirrors the production /api/wakatime Vercel Function).
+          headers: wakatimeApi
+            ? { Authorization: `Basic ${Buffer.from(wakatimeApi).toString('base64')}` }
+            : {},
         },
       },
     },
