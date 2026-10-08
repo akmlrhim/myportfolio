@@ -56,7 +56,7 @@ const githubLogo = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="1
       <tbody>
         <tr
           v-for="row in rows"
-          :key="row.project.id"
+          :key="row.project.slug"
           class="border-b border-neutral-100 transition-colors last:border-0 hover:bg-neutral-50 dark:border-neutral-800/60 dark:hover:bg-neutral-800/30"
         >
           <td class="px-4 py-3.5">

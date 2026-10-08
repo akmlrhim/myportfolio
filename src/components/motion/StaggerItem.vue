@@ -1,7 +1,7 @@
 <script setup>
 import { ref, inject, computed } from 'vue'
 
-const props = defineProps({
+defineProps({
   y: { type: Number, default: 18 },
   duration: { type: Number, default: 0.45 },
 })

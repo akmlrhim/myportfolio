@@ -32,7 +32,6 @@ const DEVICON_MAP = {
   filament: 'filamentphp-filamentphp-original',
   tailwindcss: 'tailwindcss-tailwindcss-original',
   bootstrap: 'bootstrap-bootstrap-original',
-  inertiajs: 'inertiajs-inertiajs-original',
   gsap: 'gsap-gsap-original',
   pinia: 'pinia-pinia-original',
   vite: 'vite-vite-original',

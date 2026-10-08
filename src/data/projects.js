@@ -8,7 +8,7 @@ export const projectCategories = [
 
 export const projects = [
   {
-    id: 'MS Construction',
+    slug: 'ms-construction',
     category: 'company-profile',
     stack: ['reactjs', 'tailwindcss', 'framermotion'],
     links: { live: 'https://www.msconstructione.com/', repo: null },
@@ -17,7 +17,7 @@ export const projects = [
   },
 
   {
-    id: 'morarep',
+    slug: 'morarep',
     category: 'company-profile',
     stack: [
       'gsap',
@@ -35,7 +35,7 @@ export const projects = [
   },
 
   {
-    id: 'attacargo',
+    slug: 'attacargo',
     category: 'company-profile',
     stack: [
       'filament',
@@ -53,7 +53,7 @@ export const projects = [
   },
 
   {
-    id: 'kusuma-jp',
+    slug: 'kusuma-jp',
     category: 'company-profile',
     stack: [
       'filament',
@@ -71,7 +71,7 @@ export const projects = [
   },
 
   {
-    id: 'impost-media',
+    slug: 'impost-media',
     category: 'company-profile',
     stack: ['filament', 'gsap', 'inertiajs', 'laravel', 'mysql', 'reactjs', 'tailwindcss'],
     links: { live: 'https://www.impostmedia.com', repo: null },
@@ -80,7 +80,7 @@ export const projects = [
   },
 
   {
-    id: 'villa-tebing-buluh',
+    slug: 'villa-tebing-buluh',
     category: 'company-profile',
     stack: ['vuejs', 'tailwindcss', 'mysql', 'express.js'],
     links: { live: 'https://www.villatebingbuluh.com', repo: null },
@@ -89,7 +89,7 @@ export const projects = [
   },
 
   {
-    id: 'hris-im',
+    slug: 'hris-im',
     category: 'web-app',
     stack: ['livewire', 'laravel', 'mysql', 'tailwindcss'],
     links: { live: 'https://www.hris.impostmedia.com', repo: null },
@@ -98,7 +98,7 @@ export const projects = [
   },
 
   {
-    id: 'wspace-im',
+    slug: 'wspace-im',
     category: 'web-app',
     stack: [
       'livewire',
@@ -116,7 +116,7 @@ export const projects = [
   },
 
   {
-    id: 'ops-im',
+    slug: 'ops-im',
     category: 'web-app',
     stack: ['inertiajs', 'laravel', 'mysql', 'tailwindcss', 'shadcn/ui', 'typescript', 'pusher'],
     links: { live: 'https://www.ops.impostmedia.com', repo: null },

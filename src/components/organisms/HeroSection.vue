@@ -1,5 +1,4 @@
 <script setup>
-import Reveal from '@/components/motion/MotionReveal.vue'
 import { useAppStore } from '@/stores/app'
 import BaseDivider from '@/components/atoms/BaseDivider.vue'
 
