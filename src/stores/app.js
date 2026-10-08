@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { translations, skills } from '@/data/portfolio'
+import { translations } from '@/data/i18n'
+import { skills } from '@/data/skills'
 
 export const useAppStore = defineStore('app', () => {
   // --- state ---
@@ -12,6 +13,9 @@ export const useAppStore = defineStore('app', () => {
   if (dark.value) {
     document.documentElement.classList.add('dark')
   }
+
+  // --- init document language ---
+  document.documentElement.lang = lang.value
 
   // --- computed ---
   const t = computed(() => translations[lang.value])
@@ -27,15 +31,15 @@ export const useAppStore = defineStore('app', () => {
     const main = skills.filter((s) => s.main).length
     const frontend = skills.filter((s) => s.category === 'frontend').length
     const backend = skills.filter((s) => s.category === 'backend').length
-    const mobile = skills.filter((s) => s.category === 'mobile').length
     const database = skills.filter((s) => s.category === 'database').length
     const tools = skills.filter((s) => s.category === 'tools').length
-    return { all, main, frontend, backend, mobile, database, tools }
+    return { all, main, frontend, backend, database, tools }
   })
 
   // --- actions ---
   function toggleLang() {
     lang.value = lang.value === 'en' ? 'id' : 'en'
+    document.documentElement.lang = lang.value
     localStorage.setItem('portfolio-lang', lang.value)
   }
 

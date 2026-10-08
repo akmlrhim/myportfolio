@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue'
-import { statsConfig } from '@/data/portfolio'
+import { statsConfig } from '@/data/stats'
 
 const GITHUB_USER = statsConfig.githubUser
 const USER_API = `https://api.github.com/users/${GITHUB_USER}`

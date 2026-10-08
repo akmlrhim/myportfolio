@@ -39,7 +39,7 @@ const brand = computed(() => brands[props.brand])
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noopener noreferrer' : undefined"
     :aria-label="`${cta} — ${title}`"
-    class="group relative flex h-full flex-col justify-center overflow-hidden rounded-2xl p-7 min-h-48 text-white bg-gradient-to-br transition-all duration-200 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+    class="group relative flex h-full flex-col overflow-hidden rounded-2xl p-7 min-h-48 text-white bg-gradient-to-br transition-all duration-200 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
     :class="brand.card"
   >
     <!-- watermark: logo sosmed besar -->
@@ -49,13 +49,13 @@ const brand = computed(() => brands[props.brand])
       v-html="brand.svg"
     />
 
-    <h3 class="text-2xl font-bold">{{ title }}</h3>
-    <p class="mt-2 text-[15px] text-white/85 max-w-sm" :class="wide && 'max-w-md'">
+    <h2 class="text-2xl font-bold">{{ title }}</h2>
+    <p class="mt-2 mb-6 text-[15px] text-white/85 max-w-sm" :class="wide && 'max-w-md'">
       {{ description }}
     </p>
 
     <span
-      class="mt-6 inline-flex items-center gap-2 self-start rounded-xl min-h-12 px-6 py-3 text-base font-semibold transition-colors"
+      class="mt-auto inline-flex items-center gap-2 self-start rounded-xl min-h-12 px-6 py-3 text-base font-semibold transition-colors"
       :class="brand.btn"
     >
       {{ cta }}

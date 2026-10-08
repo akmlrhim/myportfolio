@@ -8,7 +8,7 @@ defineProps({
 <template>
   <button
     :type="type"
-    class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+    class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
     :class="{
       'bg-blue-600 text-white hover:bg-blue-500': variant === 'primary',
       'border border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400 dark:hover:border-neutral-600':

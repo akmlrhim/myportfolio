@@ -1,6 +1,6 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
-import { socialLinks } from '@/data/portfolio'
+import { socialLinks } from '@/data/social'
 import PageHeader from '@/components/organisms/PageHeader.vue'
 import SocialLink from '@/components/molecules/SocialLink.vue'
 import StaggerGroup from '@/components/motion/StaggerGroup.vue'

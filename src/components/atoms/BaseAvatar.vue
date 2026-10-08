@@ -2,6 +2,7 @@
 defineProps({
   initials: { type: String, default: '?' },
   size: { type: String, default: 'md' }, // sm | md | lg
+  label: { type: String, default: '' },
 })
 </script>
 
@@ -13,6 +14,9 @@ defineProps({
       'w-12 h-12 text-base lg:w-16 lg:h-16 lg:text-xl': size === 'md',
       'w-16 h-16 lg:w-20 lg:h-20 text-xl lg:text-2xl': size === 'lg',
     }"
+    :role="label ? 'img' : undefined"
+    :aria-label="label || undefined"
+    :aria-hidden="label ? undefined : 'true'"
   >
     {{ initials }}
   </div>

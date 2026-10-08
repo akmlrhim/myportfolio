@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
-import { AnimatePresence, motion } from 'motion-v'
 import DefaultLayout from './components/templates/DefaultLayout.vue'
 import PageSkeleton from './components/organisms/PageSkeleton.vue'
 import router from './router'
@@ -17,31 +16,24 @@ router.afterEach((to) => {
   routeLoading.value = false
   pageview({ route: to.path })
 })
+
+watch(
+  () => route.path,
+  () => {
+    const title = route.meta?.title
+    document.title = title ? `${title} | Akmal Rahim` : 'Akmal Rahim | Portfolio'
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
   <DefaultLayout>
     <RouterView v-slot="{ Component }">
-      <AnimatePresence mode="wait">
-        <motion.div
-          v-if="routeLoading"
-          key="route-skeleton"
-          :initial="{ opacity: 0 }"
-          :animate="{ opacity: 1, transition: { duration: 0.15 } }"
-          :exit="{ opacity: 0, transition: { duration: 0.15 } }"
-        >
-          <PageSkeleton />
-        </motion.div>
-        <motion.div
-          v-else
-          :key="route.path"
-          :initial="{ opacity: 0, y: 24 }"
-          :animate="{ opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] } }"
-          :exit="{ opacity: 0, y: -16, transition: { duration: 0.2, ease: 'easeIn' } }"
-        >
-          <component :is="Component" />
-        </motion.div>
-      </AnimatePresence>
+      <Transition name="page" mode="out-in">
+        <PageSkeleton v-if="routeLoading" key="skeleton" />
+        <component :is="Component" v-else :key="route.path" />
+      </Transition>
     </RouterView>
   </DefaultLayout>
 </template>

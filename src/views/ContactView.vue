@@ -2,7 +2,7 @@
 import { useAppStore } from '@/stores/app'
 import PageHeader from '@/components/organisms/PageHeader.vue'
 import BrandCard from '@/components/molecules/BrandCard.vue'
-import { contactChannels } from '@/data/portfolio'
+import { contactChannels } from '@/data/social'
 import StaggerGroup from '@/components/motion/StaggerGroup.vue'
 import StaggerItem from '@/components/motion/StaggerItem.vue'
 

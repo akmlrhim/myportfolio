@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { navItems } from '@/data/portfolio'
+import { navItems } from '@/data/nav'
 import NavItem from '@/components/molecules/NavItem.vue'
 
 const route = useRoute()

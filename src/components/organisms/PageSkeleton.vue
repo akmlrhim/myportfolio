@@ -3,7 +3,7 @@ import Skeleton from '@/components/atoms/BaseSkeleton.vue'
 </script>
 
 <template>
-  <div aria-busy="true" aria-label="Loading page" class="py-6 lg:py-10">
+  <div role="status" aria-busy="true" aria-label="Loading page" class="py-6 lg:py-10">
     <Skeleton w="w-56" h="h-8" rounded="rounded-xl" />
     <div class="mt-4 space-y-2">
       <Skeleton w="w-full max-w-2xl" h="h-4" />

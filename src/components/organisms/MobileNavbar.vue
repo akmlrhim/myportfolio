@@ -2,7 +2,8 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { profile, navItems } from '@/data/portfolio'
+import { profile } from '@/data/profile'
+import { navItems } from '@/data/nav'
 import BaseAvatar from '@/components/atoms/BaseAvatar.vue'
 import SidebarControls from '@/components/organisms/SidebarControls.vue'
 import NavItem from '@/components/molecules/NavItem.vue'
@@ -37,7 +38,7 @@ const isActive = (path) => {
     class="lg:hidden sticky top-0 z-40 border-b border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur relative"
   >
     <div class="flex items-center gap-3 px-4 py-2.5">
-      <BaseAvatar :initials="initials" size="sm" />
+      <BaseAvatar :initials="initials" :label="profile.name" size="sm" />
       <div class="flex-1 min-w-0"></div>
       <div class="shrink-0">
         <SidebarControls />
@@ -48,7 +49,7 @@ const isActive = (path) => {
         class="flex items-center justify-center w-9 h-9 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         :aria-expanded="open"
         aria-controls="mobile-nav"
-        :aria-label="open ? 'Tutup menu' : 'Buka menu'"
+        :aria-label="open ? store.t.sidebar.openMenu : store.t.sidebar.closeMenu"
         @click="open = !open"
       >
         <svg v-if="!open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -76,6 +77,7 @@ const isActive = (path) => {
         v-if="open"
         id="mobile-nav"
         class="absolute top-full inset-x-0 flex flex-col gap-0.5 px-3 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-lg"
+        role="menu"
       >
         <NavItem
           v-for="item in navItems"

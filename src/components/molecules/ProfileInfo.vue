@@ -8,6 +8,7 @@ const props = defineProps({
   verified: Boolean,
   openToWork: Boolean,
   openToWorkLabel: String,
+  location: String,
 })
 
 const initials = computed(() => {
@@ -30,12 +31,21 @@ const initials = computed(() => {
 
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5">
-          <h1 class="font-semibold text-base lg:text-xl truncate">{{ name }}</h1>
-          <svg v-if="verified" class="flex-shrink-0 text-blue-500" width="18" height="18" viewBox="0 0 24 24"
+          <p class="font-semibold text-base lg:text-xl truncate">{{ name }}</p>
+          <svg v-if="verified" class="flex-shrink-0 text-blue-600" width="18" height="18" viewBox="0 0 24 24"
             fill="currentColor">
             <path
               d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
           </svg>
+        </div>
+
+        <div v-if="location" class="mt-1 flex items-center gap-1.5 text-[11px] lg:text-xs text-neutral-600 dark:text-neutral-400">
+          <svg class="flex-shrink-0" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <span class="truncate">{{ location }}</span>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue'
-import { statsConfig } from '@/data/portfolio'
+import { statsConfig } from '@/data/stats'
 import localData from '@/data/wakatime.json'
 
 // API key comes from the build environment (Vite config maps WAKATIME_API →

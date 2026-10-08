@@ -48,6 +48,7 @@ function submit() {
     <motion.div
       v-else
       key="guestbook-success"
+      role="status"
       class="mt-8 max-w-md rounded-xl border border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-950 p-4"
       :initial="{ opacity: 0, scale: 0.96, y: 8 }"
       :animate="{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }"

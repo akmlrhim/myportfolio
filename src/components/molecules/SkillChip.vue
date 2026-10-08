@@ -7,47 +7,29 @@ const props = defineProps({
 
 function deviconSlug(skillIcon) {
   const map = {
-    html5: 'html5-html5-original',
-    css3: 'css3-css3-original',
-    bootstrap: 'bootstrap-bootstrap-original',
-    tailwindcss: 'tailwindcss-tailwindcss-original',
     javascript: 'javascript-javascript-original',
-    typescript: 'typescript-typescript-original',
     react: 'react-react-original',
-    vitejs: 'vitejs-vitejs-original',
-    astro: 'astro-astro-original',
-    nextjs: 'nextjs-nextjs-original',
-    redux: 'redux-redux-original',
-    nodejs: 'nodejs-nodejs-original',
-    express: 'express-express-original',
-    go: 'go-go-original-wordmark',
-    gin: 'gin-original',
-    swagger: 'swagger-original',
-    php: 'php-php-original',
+    vuejs: 'vuejs-vuejs-original',
     laravel: 'laravel-laravel-original',
-    kotlin: 'kotlin-kotlin-original',
-    jetpackcompose: 'jetpackcompose-original',
-    postgresql: 'postgresql-postgresql-original',
+    php: 'php-php-original',
+    codeigniter: 'codeigniter-codeigniter-plain',
+    python: 'python-python-original',
     mysql: 'mysql-mysql-original-wordmark',
-    firebase: 'firebase-firebase-original',
-    docker: 'docker-docker-original-wordmark',
+    postgresql: 'postgresql-postgresql-original',
+    bun: 'bun-bun-original',
     npm: 'npm-npm-original-wordmark',
-    yarn: 'yarn-yarn-original-wordmark',
-    git: 'git-git-original-wordmark',
-    postman: 'postman-postman-original',
-    prisma: 'prisma-original',
+    github: 'github-github-original',
+    gitlab: 'gitlab-gitlab-original',
+    figma: 'figma-figma-original',
+    'github-actions': 'github-actions-plain',
+    'google-colaboratory': 'googlecolaboratory-original',
+    laragon: 'laragon-original',
+    prisma: 'prisma-prisma-original',
+    expressjs: 'express-js-original',
+    go: 'go-go-original',
   }
   const slug = map[skillIcon]
   if (slug) return `/icons/devicon/${slug}.svg`
-  const simpleMap = {
-    shadcnui: 'shadcnui',
-    tanstack: 'tanstack',
-    axios: 'axios',
-    zod: 'zod',
-    supabase: 'supabase',
-  }
-  const simpleSlug = simpleMap[skillIcon]
-  if (simpleSlug) return `/icons/simple-icons/${simpleSlug}.svg`
   return null
 }
 

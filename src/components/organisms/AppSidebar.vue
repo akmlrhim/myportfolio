@@ -1,6 +1,6 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
-import { profile } from '@/data/portfolio'
+import { profile } from '@/data/profile'
 import ProfileSection from '@/components/organisms/ProfileSection.vue'
 import SidebarControls from '@/components/organisms/SidebarControls.vue'
 import SidebarNav from '@/components/organisms/SidebarNav.vue'
@@ -20,7 +20,8 @@ const year = computed(() => new Date().getFullYear())
       flex-col
     ">
     <ProfileSection :name="profile.name" :avatar="profile.avatar" :verified="profile.verified"
-      :open-to-work="profile.openToWork" :open-to-work-label="store.t.sidebar.openToWork">
+      :open-to-work="profile.openToWork" :open-to-work-label="store.t.sidebar.openToWork"
+      :location="store.t.hero.based">
       <template #controls>
         <SidebarControls />
       </template>

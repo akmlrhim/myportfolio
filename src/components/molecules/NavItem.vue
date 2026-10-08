@@ -14,6 +14,7 @@ defineProps({
   <RouterLink
     :to="to"
     :title="label"
+    :aria-current="active ? 'page' : undefined"
     class="flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 lg:w-full lg:gap-3 lg:py-2.5 lg:text-sm lg:rounded-xl"
     :class="
       active
@@ -25,7 +26,7 @@ defineProps({
     <span class="whitespace-nowrap">{{ label }}</span>
     <svg
       v-if="active"
-      class="ml-auto flex-shrink-0 hidden lg:block text-neutral-400 dark:text-neutral-500"
+      class="ml-auto flex-shrink-0 hidden lg:block text-neutral-500 dark:text-neutral-400"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"

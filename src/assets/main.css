@@ -2,6 +2,18 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Self-hosted Inter variable font (latin subset, weights 400-700) */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -24,6 +36,56 @@ body {
 @media (max-width: 479px) {
   html {
     font-size: 14px;
+  }
+}
+
+/* Reveal-on-scroll (replaces motion-v in critical components) */
+.reveal,
+.stagger-item {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, var(--item-y, 24px)));
+  transition:
+    opacity var(--reveal-duration, var(--item-duration, 0.5s)) cubic-bezier(0.21, 0.47, 0.32, 0.98)
+      var(--reveal-delay, var(--item-delay, 0s)),
+    transform var(--reveal-duration, var(--item-duration, 0.5s)) cubic-bezier(0.21, 0.47, 0.32, 0.98)
+      var(--reveal-delay, var(--item-delay, 0s));
+}
+.reveal.is-visible,
+.stagger-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Route transitions (App.vue <Transition name="page">) */
+.page-enter-active {
+  transition: opacity 0.35s cubic-bezier(0.21, 0.47, 0.32, 0.98), transform 0.35s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+.page-leave-active {
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-16px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .stagger-item,
+  .page-enter-active,
+  .page-leave-active {
+    transition: none !important;
+  }
+  .reveal,
+  .stagger-item,
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

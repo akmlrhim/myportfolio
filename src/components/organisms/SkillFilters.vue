@@ -1,6 +1,6 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
-import { skillCategories } from '@/data/portfolio'
+import { skillCategories } from '@/data/skills'
 import FilterPill from '@/components/molecules/FilterPill.vue'
 
 const store = useAppStore()

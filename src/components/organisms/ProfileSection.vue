@@ -7,6 +7,7 @@ defineProps({
   verified: Boolean,
   openToWork: Boolean,
   openToWorkLabel: String,
+  location: String,
 })
 </script>
 
@@ -19,6 +20,7 @@ defineProps({
         :verified="verified"
         :open-to-work="openToWork"
         :open-to-work-label="openToWorkLabel"
+        :location="location"
       />
       <slot name="controls" />
     </div>

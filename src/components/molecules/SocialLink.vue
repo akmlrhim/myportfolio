@@ -13,7 +13,7 @@ defineProps({
     :href="href"
     target="_blank"
     rel="noopener noreferrer"
-    class="flex items-center gap-3 px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors max-w-md"
+    class="flex items-center gap-3 px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors max-w-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
   >
     <BaseIcon :svg="icon" :size="20" />
     <span class="text-sm font-medium">{{ title }}</span>

@@ -10,10 +10,16 @@ const store = useAppStore()
 
 <template>
   <HeroSection>
-    <Reveal :delay="0.15">
-      <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
+    <Reveal :delay="0.1">
+      <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+        {{ store.t.hero.summary }}
+      </p>
+    </Reveal>
+
+    <Reveal :delay="0.2">
+      <h2 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-8 mb-4">
         {{ store.t.hero.skills }}
-      </h3>
+      </h2>
       <SkillFilters />
       <div class="mt-6">
         <SkillGrid />

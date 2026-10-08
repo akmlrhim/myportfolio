@@ -212,9 +212,9 @@ const contribColors = computed(() =>
   <PageHeader :title="store.t.page.stats" :description="store.t.page.statsDesc">
     <!-- ================= GitHub ================= -->
     <section class="mt-10">
-      <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+      <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
         {{ store.t.stats.github }}
-      </h3>
+      </h2>
 
       <GitHubSkeleton v-if="gh.loading.value" class="mt-4" />
 
@@ -239,12 +239,12 @@ const contribColors = computed(() =>
         <!-- Contribution graph -->
         <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <h4 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {{ store.t.stats.contributionGraph }}
-            </h4>
+            </h3>
             <span
               v-if="!gh.contributionsLoading.value && gh.contributionsTotal.value"
-              class="text-xs text-neutral-400 dark:text-neutral-500"
+              class="text-xs text-neutral-500 dark:text-neutral-400"
             >
               {{ store.t.stats.contributionsLastYear.replace('{n}', gh.contributionsTotal.value) }}
             </span>
@@ -264,7 +264,7 @@ const contribColors = computed(() =>
 
           <div v-else-if="contribWeeks.length" class="mt-4 overflow-x-auto pb-1">
             <div class="inline-block">
-              <div class="relative mb-1 h-3 text-[10px] leading-none text-neutral-400 select-none dark:text-neutral-500">
+              <div class="relative mb-1 h-3 text-[10px] leading-none text-neutral-500 select-none dark:text-neutral-400">
                 <span
                   v-for="m in contribMonths"
                   :key="m.weekIndex"
@@ -295,9 +295,9 @@ const contribColors = computed(() =>
 
         <!-- GitHub top languages -->
         <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <h4 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
             {{ store.t.stats.topLanguages }}
-          </h4>
+          </h3>
           <div class="mt-4 space-y-3">
             <div v-for="l in gh.topLanguages.value" :key="l.name" class="flex items-center gap-3">
               <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ l.name }}</span>
@@ -340,7 +340,7 @@ const contribColors = computed(() =>
                   <span class="h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: ghLangColor(r.language) }" />
                   {{ r.language }}
                 </span>
-                <span class="text-xs text-neutral-400 dark:text-neutral-500">★ {{ r.stargazers_count }} · ⑂ {{ r.forks_count }}</span>
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">★ {{ r.stargazers_count }} · ⑂ {{ r.forks_count }}</span>
               </div>
             </a>
           </StaggerItem>
@@ -350,9 +350,9 @@ const contribColors = computed(() =>
 
     <!-- ================= WakaTime ================= -->
     <section class="mt-12">
-      <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+      <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
         {{ store.t.stats.wakatime }}
-      </h3>
+      </h2>
 
       <WakaTimeSkeleton v-if="wt.loading.value" class="mt-4" />
 
@@ -388,10 +388,10 @@ const contribColors = computed(() =>
         <!-- Daily breakdown -->
         <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
           <div class="flex items-center justify-between">
-            <h4 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {{ store.t.stats.dailyBreakdown }}
-            </h4>
-            <span class="text-xs text-neutral-400 dark:text-neutral-500">{{ store.t.stats.last7Days }}</span>
+            </h3>
+            <span class="text-xs text-neutral-500 dark:text-neutral-400">{{ store.t.stats.last7Days }}</span>
           </div>
           <div class="mt-6 flex h-40 items-end gap-2">
             <div v-for="(d, i) in dailyBars" :key="d.date" class="group flex h-full flex-1 flex-col items-center justify-end gap-2">
@@ -413,9 +413,9 @@ const contribColors = computed(() =>
         <!-- Languages / Editors -->
         <div class="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-            <h4 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {{ store.t.stats.topLanguages }}
-            </h4>
+            </h3>
             <div class="mt-4 space-y-3">
               <div v-for="l in wtLanguages" :key="l.name" class="flex items-center gap-3">
                 <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ l.name }}</span>
@@ -435,9 +435,9 @@ const contribColors = computed(() =>
           </div>
 
           <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-            <h4 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {{ store.t.stats.editors }}
-            </h4>
+            </h3>
             <div class="mt-4 space-y-3">
               <div v-for="e in wtEditors" :key="e.name" class="flex items-center gap-3">
                 <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ e.name }}</span>

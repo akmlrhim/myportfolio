@@ -1,64 +1,23 @@
 <script setup>
-import { ref, onMounted, onUnmounted, provide } from 'vue'
-import { motion } from 'motion-v'
+import { ref, provide } from 'vue'
+import { useReveal } from '@/composables/useReveal'
 
 const props = defineProps({
   stagger: { type: Number, default: 0.06 },
   delayChildren: { type: Number, default: 0 },
 })
 
-const el = ref(null)
-const shown = ref(false)
-let observer = null
+const { el, visible } = useReveal()
+const count = ref(0)
 
-provide('staggerShown', shown)
-
-function getDOM(target) {
-  if (!target) return null
-  if (target instanceof Element) return target
-  const dom = target.$el
-  return dom instanceof Element ? dom : null
-}
-
-onMounted(() => {
-  const target = getDOM(el.value)
-  if (target) {
-    observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        shown.value = true
-        observer.disconnect()
-        observer = null
-      },
-      { rootMargin: '-40px' },
-    )
-    observer.observe(target)
-  } else {
-    shown.value = true
-  }
-})
-
-onUnmounted(() => {
-  observer?.disconnect()
-  observer = null
-})
+provide('staggerShown', visible)
+provide('staggerStep', props.stagger)
+provide('staggerDelayChildren', props.delayChildren)
+provide('staggerNextIndex', () => count.value++)
 </script>
 
 <template>
-  <motion.div
-    ref="el"
-    :initial="false"
-    :animate="shown ? 'show' : 'hidden'"
-    :variants="{
-      hidden: {},
-      show: {
-        transition: {
-          staggerChildren: props.stagger,
-          delayChildren: props.delayChildren,
-        },
-      },
-    }"
-  >
+  <div ref="el" :class="{ 'is-visible': visible }">
     <slot />
-  </motion.div>
+  </div>
 </template>

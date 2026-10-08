@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <button
-    class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors whitespace-nowrap"
+    class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
     :class="
       active
         ? 'bg-blue-600 text-white border-blue-600'

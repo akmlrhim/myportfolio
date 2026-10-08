@@ -22,6 +22,24 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
+    build: {
+      cssCodeSplit: true,
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('motion')) return 'vendor-motion'
+              if (id.includes('vue-router')) return 'vendor-router'
+              if (id.includes('pinia')) return 'vendor-pinia'
+              if (id.includes('@vue') || id.includes('/vue/')) return 'vendor-vue'
+              return 'vendor'
+            }
+          },
+        },
+      },
+    },
     server: {
       proxy: {
         '/api/wakatime': {
