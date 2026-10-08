@@ -19,7 +19,7 @@ const year = computed(() => new Date().getFullYear())
       bg-white dark:bg-neutral-950 z-30
       flex-col
     ">
-    <ProfileSection :name="profile.name" :avatar="profile.avatar" :verified="profile.verified"
+    <ProfileSection :name="profile.name" :verified="profile.verified"
       :open-to-work="profile.openToWork" :open-to-work-label="store.t.sidebar.openToWork"
       :location="store.t.hero.based">
       <template #controls>

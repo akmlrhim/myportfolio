@@ -1,5 +1,5 @@
 /**
- * Vercel Edge Middleware — Rate Limiter
+ * Vercel Routing Middleware — Rate Limiter
  *
  * Protects against per-IP request floods (scraping, hammering, spam).
  * Note: Vercel already absorbs volumetric DDoS at the network level;
@@ -7,7 +7,13 @@
  *
  * Limit: 100 requests / IP / 60s sliding-ish window.
  * Storage is in-memory per edge instance — approximate, zero-dependency.
+ *
+ * IMPORTANT: Must return `next()` from @vercel/functions to continue
+ * to the static site. Returning `fetch(request)` re-enters middleware
+ * and causes Vercel's INFINITE_LOOP_DETECTED (508) error.
  */
+
+import { next } from '@vercel/functions'
 
 const WINDOW_MS = 60_000; // 1 minute
 const MAX_REQUESTS = 100; // max requests per IP per window
@@ -61,10 +67,12 @@ export default function middleware(request) {
     });
   }
 
-  // Pass through to static routing
-  return fetch(request);
+  // Continue to the static site — do NOT use fetch(request) (causes 508 loop)
+  return next();
 }
 
 export const config = {
-  matcher: '/:path*',
+  // Only run on page navigations (paths without file extension).
+  // Excludes: assets, icons, fonts, images, favicon, manifest, etc.
+  matcher: ['/((?!.*\\..*).*)'],
 };

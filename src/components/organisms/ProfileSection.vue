@@ -3,7 +3,6 @@ import ProfileInfo from '@/components/molecules/ProfileInfo.vue'
 
 defineProps({
   name: String,
-  avatar: String,
   verified: Boolean,
   openToWork: Boolean,
   openToWorkLabel: String,
@@ -16,7 +15,6 @@ defineProps({
     <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
       <ProfileInfo
         :name="name"
-        :avatar="avatar"
         :verified="verified"
         :open-to-work="openToWork"
         :open-to-work-label="openToWorkLabel"
