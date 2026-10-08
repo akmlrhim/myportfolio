@@ -38,7 +38,7 @@ const brand = computed(() => brands[props.brand])
     :href="href"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noopener noreferrer' : undefined"
-    :aria-label="`${cta} — ${title}`"
+    :aria-label="`${cta}: ${title}`"
     class="group relative flex h-full flex-col overflow-hidden rounded-2xl p-7 min-h-48 text-white bg-gradient-to-br transition-all duration-200 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
     :class="brand.card"
   >

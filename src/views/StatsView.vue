@@ -25,7 +25,7 @@ function fmtHm(seconds) {
 }
 
 function fmtDate(dateStr) {
-  if (!dateStr) return '—'
+  if (!dateStr) return '--'
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString(locale.value, {
     month: 'long',
     day: '2-digit',
@@ -49,7 +49,7 @@ const endDate = computed(() => {
 
 const avgDaily = computed(() => {
   const days = (wtData.value?.daily ?? []).filter((d) => d.seconds > 0)
-  if (!days.length) return '—'
+  if (!days.length) return '--'
   return fmtHm(Math.round(totalSeconds.value / days.length))
 })
 
@@ -61,12 +61,12 @@ const bestDay = computed(() => {
 
 const bestDayLabel = computed(() => {
   const b = bestDay.value
-  return b ? `${fmtDate(b.date)} (${fmtHm(b.seconds)})` : '—'
+  return b ? `${fmtDate(b.date)} (${fmtHm(b.seconds)})` : '--'
 })
 
 const allTimeLabel = computed(() => {
   const s = wtData.value?.allTimeSeconds
-  if (!s) return '—'
+  if (!s) return '--'
   const h = Math.floor(s / 3600)
   const m = Math.round((s % 3600) / 60)
   return `${h.toLocaleString(locale.value)}h ${m}m`
@@ -127,7 +127,7 @@ const contribBestDay = computed(() => {
 
 const contribDailyAvg = computed(() => {
   const items = ghContribItems.value
-  if (!items.length) return '—'
+  if (!items.length) return '--'
   const activeDays = items.filter((c) => c.count > 0).length || 1
   return (gh.contributionsTotal.value / activeDays).toFixed(1)
 })
@@ -138,10 +138,10 @@ const ghStats = computed(() => {
     { label: store.t.stats.followers, value: gh.user.value?.followers ?? 0 },
     { label: store.t.stats.following, value: gh.user.value?.following ?? 0 },
     { label: store.t.stats.repos, value: gh.user.value?.public_repos ?? 0 },
-    { label: store.t.stats.contributions, value: loading ? '—' : gh.contributionsTotal.value.toLocaleString(locale.value) },
-    { label: store.t.stats.thisWeek, value: loading ? '—' : contribThisWeek.value },
-    { label: store.t.stats.bestDay, value: loading ? '—' : (contribBestDay.value?.count ?? 0) },
-    { label: store.t.stats.dailyAvg, value: loading ? '—' : `${contribDailyAvg.value} ${store.t.stats.perDay}` },
+    { label: store.t.stats.contributions, value: loading ? '--' : gh.contributionsTotal.value.toLocaleString(locale.value) },
+    { label: store.t.stats.thisWeek, value: loading ? '--' : contribThisWeek.value },
+    { label: store.t.stats.bestDay, value: loading ? '--' : (contribBestDay.value?.count ?? 0) },
+    { label: store.t.stats.dailyAvg, value: loading ? '--' : `${contribDailyAvg.value} ${store.t.stats.perDay}` },
   ]
 })
 

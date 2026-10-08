@@ -1,39 +1,13 @@
 <script setup>
+import { deviconUrl } from '@/utils/devicon'
+
 const props = defineProps({
   name: String,
   icon: String,
   color: String,
 })
 
-function deviconSlug(skillIcon) {
-  const map = {
-    javascript: 'javascript-javascript-original',
-    react: 'react-react-original',
-    vuejs: 'vuejs-vuejs-original',
-    laravel: 'laravel-laravel-original',
-    php: 'php-php-original',
-    codeigniter: 'codeigniter-codeigniter-plain',
-    python: 'python-python-original',
-    mysql: 'mysql-mysql-original-wordmark',
-    postgresql: 'postgresql-postgresql-original',
-    bun: 'bun-bun-original',
-    npm: 'npm-npm-original-wordmark',
-    github: 'github-github-original',
-    gitlab: 'gitlab-gitlab-original',
-    figma: 'figma-figma-original',
-    'github-actions': 'github-actions-plain',
-    'google-colaboratory': 'googlecolaboratory-original',
-    laragon: 'laragon-original',
-    prisma: 'prisma-prisma-original',
-    expressjs: 'express-js-original',
-    go: 'go-go-original',
-  }
-  const slug = map[skillIcon]
-  if (slug) return `/icons/devicon/${slug}.svg`
-  return null
-}
-
-const imgSrc = deviconSlug(props.icon)
+const imgSrc = deviconUrl(props.icon)
 
 function handleImgError(e) {
   const fallback = e.target.nextElementSibling

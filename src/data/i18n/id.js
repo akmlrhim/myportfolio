@@ -40,6 +40,22 @@ export default {
     database: 'Database',
     tools: 'Alat',
   },
+  projectFilter: {
+    all: 'Semua',
+    web: 'Web App',
+    company: 'Company Profile',
+    internal: 'Sistem Internal',
+    experiment: 'Eksperimen',
+  },
+  projects: {
+    viewLive: 'Kunjungi Situs',
+    viewCode: 'Source Code',
+    stack: 'Teknologi',
+    project: 'Proyek',
+    links: 'Tautan',
+    empty: 'Tidak ada proyek.',
+    emptyDesc: 'Coba pilih kategori lain.',
+  },
   page: {
     about: 'Tentang Saya',
     aboutDesc:

@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { translations } from '@/data/i18n'
-import { skills } from '@/data/skills'
+import { skills as rawSkills } from '@/data/skills'
+import { projects, projectCategories } from '@/data/projects'
+
+const CATEGORY_ORDER = { frontend: 0, backend: 1, database: 2, tools: 3 }
 
 export const useAppStore = defineStore('app', () => {
   // --- state ---
@@ -21,18 +24,26 @@ export const useAppStore = defineStore('app', () => {
   const t = computed(() => translations[lang.value])
 
   const filteredSkills = computed(() => {
-    if (activeFilter.value === 'all') return skills
-    if (activeFilter.value === 'main') return skills.filter((s) => s.main)
-    return skills.filter((s) => s.category === activeFilter.value)
+    if (activeFilter.value === 'all') {
+      return [...rawSkills].sort((a, b) => {
+        const ca = CATEGORY_ORDER[a.category] ?? 99
+        const cb = CATEGORY_ORDER[b.category] ?? 99
+        if (ca !== cb) return ca - cb
+        if ((a.main ? 1 : 0) !== (b.main ? 1 : 0)) return (b.main ? 1 : 0) - (a.main ? 1 : 0)
+        return a.name.localeCompare(b.name)
+      })
+    }
+    if (activeFilter.value === 'main') return rawSkills.filter((s) => s.main)
+    return rawSkills.filter((s) => s.category === activeFilter.value)
   })
 
   const filterCounts = computed(() => {
-    const all = skills.length
-    const main = skills.filter((s) => s.main).length
-    const frontend = skills.filter((s) => s.category === 'frontend').length
-    const backend = skills.filter((s) => s.category === 'backend').length
-    const database = skills.filter((s) => s.category === 'database').length
-    const tools = skills.filter((s) => s.category === 'tools').length
+    const all = rawSkills.length
+    const main = rawSkills.filter((s) => s.main).length
+    const frontend = rawSkills.filter((s) => s.category === 'frontend').length
+    const backend = rawSkills.filter((s) => s.category === 'backend').length
+    const database = rawSkills.filter((s) => s.category === 'database').length
+    const tools = rawSkills.filter((s) => s.category === 'tools').length
     return { all, main, frontend, backend, database, tools }
   })
 
@@ -53,6 +64,27 @@ export const useAppStore = defineStore('app', () => {
     activeFilter.value = filter
   }
 
+  // --- project filters ---
+  const activeProjectFilter = ref('all')
+
+  const filteredProjects = computed(() => {
+    if (activeProjectFilter.value === 'all') return projects
+    return projects.filter((project) => project.category === activeProjectFilter.value)
+  })
+
+  const projectFilterCounts = computed(() => {
+    const counts = { all: projects.length }
+    for (const category of projectCategories) {
+      if (category.id === 'all') continue
+      counts[category.id] = projects.filter((project) => project.category === category.id).length
+    }
+    return counts
+  })
+
+  function setProjectFilter(filter) {
+    activeProjectFilter.value = filter
+  }
+
   return {
     lang,
     dark,
@@ -63,5 +95,9 @@ export const useAppStore = defineStore('app', () => {
     toggleLang,
     toggleDark,
     setFilter,
+    activeProjectFilter,
+    filteredProjects,
+    projectFilterCounts,
+    setProjectFilter,
   }
 })

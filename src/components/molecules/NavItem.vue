@@ -24,20 +24,5 @@ defineProps({
   >
     <BaseIcon :svg="icon" :size="18" />
     <span class="whitespace-nowrap">{{ label }}</span>
-    <svg
-      v-if="active"
-      class="ml-auto flex-shrink-0 hidden lg:block text-neutral-500 dark:text-neutral-400"
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-    </svg>
   </RouterLink>
 </template>

@@ -40,6 +40,22 @@ export default {
     database: 'Database',
     tools: 'Tools',
   },
+  projectFilter: {
+    all: 'All',
+    web: 'Web App',
+    company: 'Company Profile',
+    internal: 'Internal System',
+    experiment: 'Experiment',
+  },
+  projects: {
+    viewLive: 'Live Demo',
+    viewCode: 'Source Code',
+    stack: 'Tech Stack',
+    project: 'Project',
+    links: 'Links',
+    empty: 'No projects found.',
+    emptyDesc: 'Try selecting a different category.',
+  },
   page: {
     about: 'About Me',
     aboutDesc: 'Learn more about my background, experience, and passion for technology.',
