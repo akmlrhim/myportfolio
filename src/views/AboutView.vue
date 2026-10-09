@@ -32,7 +32,7 @@ const expItems = computed(() => experience.map(localize))
     <!-- Education -->
     <section class="mt-12">
       <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{{ t.education }}</h2>
-      <StaggerGroup v-if="eduItems.length" class="mt-5 border-l border-neutral-200 dark:border-neutral-800 ml-1.5 py-1 space-y-8">
+      <StaggerGroup v-if="eduItems.length" class="mt-5 border-l border-neutral-200 dark:border-neutral-800 ml-5 lg:ml-1.5 py-1 space-y-8">
         <StaggerItem v-for="(item, i) in eduItems" :key="i">
           <TimelineItem v-bind="item" />
         </StaggerItem>
@@ -45,7 +45,7 @@ const expItems = computed(() => experience.map(localize))
     <!-- Experience -->
     <section class="mt-12">
       <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{{ t.experience }}</h2>
-      <StaggerGroup v-if="expItems.length" class="mt-5 border-l border-neutral-200 dark:border-neutral-800 ml-1.5 py-1 space-y-8">
+      <StaggerGroup v-if="expItems.length" class="mt-5 border-l border-neutral-200 dark:border-neutral-800 ml-5 lg:ml-1.5 py-1 space-y-8">
         <StaggerItem v-for="(item, i) in expItems" :key="i">
           <TimelineItem v-bind="item" />
         </StaggerItem>
