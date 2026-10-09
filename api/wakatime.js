@@ -1,17 +1,3 @@
-/**
- * WakaTime API proxy. Keeps the secret API key server-side so it never
- * reaches the browser bundle.
- *
- * Vercel rewrites in vercel.json map:
- *   /api/wakatime/summaries  -> /api/wakatime?__endpoint=summaries
- *   /api/wakatime/all-time   -> /api/wakatime?__endpoint=all-time
- *
- * The original query string (?range=last_7_days, etc.) is preserved and
- * forwarded to the upstream.
- *
- * The dev proxy in vite.config.js serves the same two paths locally.
- */
-
 const UPSTREAM = 'https://api.wakatime.com/api/v1'
 
 const UPSTREAM_PATHS = {
@@ -36,7 +22,6 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'Unknown WakaTime endpoint' })
   }
 
-  // Forward the original query string minus our internal __endpoint param.
   const { __endpoint, ...forwarded } = req.query
   const qs = new URLSearchParams(forwarded).toString()
 
@@ -47,14 +32,8 @@ export default async function handler(req, res) {
       },
     })
 
-    res.setHeader(
-      'Cache-Control',
-      'public, s-maxage=300, stale-while-revalidate=600',
-    )
-    res.setHeader(
-      'Content-Type',
-      upstream.headers.get('content-type') ?? 'application/json',
-    )
+    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600')
+    res.setHeader('Content-Type', upstream.headers.get('content-type') ?? 'application/json')
     return res.status(upstream.status).send(await upstream.text())
   } catch (err) {
     console.error('WakaTime proxy failed:', err)
