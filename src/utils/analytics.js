@@ -39,9 +39,9 @@ export function captureEvent(name, properties) {
   posthog.capture(name, properties)
 }
 
-export function identifyUser(distinctId, properties) {
-  if (!isAnalyticsEnabled || !distinctId) return
-  posthog.identify(distinctId, properties)
+export function setPersonProperties(properties) {
+  if (!isAnalyticsEnabled || !properties) return
+  posthog.setPersonProperties(properties)
 }
 
 export function resetUser() {

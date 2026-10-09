@@ -44,6 +44,8 @@ const DEVICON_MAP = {
   fluxui: 'fluxui-fluxui-original',
   framer: 'framer-framer-original',
   framermotion: 'framer-framer-original',
+  posthog: 'posthog-posthog-original',
+  vercel: 'vercel-vercel-original',
 }
 
 function normalizeIconKey(iconKey) {

@@ -18,7 +18,7 @@ export default {
     greeting: "Hi, I'm Akmal Rahim",
     based: 'Kalimantan Selatan',
     summary:
-      "I'm a web developer with a strong interest in building functional, responsive web applications and a willingness to learn new technologies. My expertise covers backend development with PHP (Laravel) and Node.js (Express), database management with MySQL and PostgreSQL, and frontend development with React.js and Tailwind CSS.",
+      "I'm a web developer with a strong interest in building functional, responsive web applications and a willingness to learn new technologies. My expertise covers backend development with PHP (Laravel) and Node.js (Express), database management with MySQL and PostgreSQL, and frontend development with React and Tailwind CSS.",
     skills: 'Skills',
   },
   about: {
@@ -28,7 +28,7 @@ export default {
     empty: 'Content coming soon.',
     bio: [
       "I am a web developer with a strong interest in building functional and responsive web applications. I enjoy the process of turning ideas into real, usable digital products, and I'm always open to learning new technologies to improve the quality of my work.",
-      'My expertise spans both backend and frontend development. On the backend, I typically use PHP (Laravel) and Node.js (Express) to build APIs and manage server-side logic, backed by experience managing databases using MySQL and PostgreSQL. On the frontend, I use React.js and Tailwind CSS to build clean, organized, and interactive user interfaces.',
+      'My expertise spans both backend and frontend development. On the backend, I typically use PHP (Laravel) and Node.js (Express) to build APIs and manage server-side logic, backed by experience managing databases using MySQL and PostgreSQL. On the frontend, I use React and Tailwind CSS to build clean, organized, and interactive user interfaces.',
       "I currently work as a Web Developer at CV. Impost Media Indonesia, an integrated digital marketing agency based in Banjarbaru, South Kalimantan. Beyond just development, I serve as a tech architect responsible for translating the client's vision and the agency's strategy into powerful digital solutions.",
     ],
   },

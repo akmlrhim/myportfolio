@@ -75,16 +75,28 @@ Variables, then redeploy.
 | Pageviews | `capturePageview()` from the router `afterEach` hook in `src/App.vue` |
 | Session replay (inputs masked) | `session_recording` in `initAnalytics()` |
 | Error tracking | `app.config.errorHandler` in `src/main.js` |
-| Person profiles | `identifyUser()` called on guestbook submit |
+| Person properties | `setPersonProperties()` called on guestbook submit (no `identify`, see note) |
 | Custom events | `captureEvent()` (e.g. `guestbook_submitted`) |
 
 To track a new event, import the helper and call it:
 
 ```js
-import { captureEvent, identifyUser, resetUser } from '@/utils/analytics'
+import { captureEvent, setPersonProperties, resetUser } from '@/utils/analytics'
 
 captureEvent('project_opened', { project_id: 'my-app' })
-identifyUser('user-123', { plan: 'pro' })
+setPersonProperties({ plan: 'pro' })
 resetUser()
 ```
+
+This site has no auth, so there is no stable user ID to call `identify()` with. PostHog
+guidance is explicit: never use a display name or email as a `distinct_id`, since a
+collision merges people. Instead the guestbook submit calls `setPersonProperties()`,
+which keeps PostHog's auto-generated ID and attaches `name` / `source` as person
+properties.
+
+Note the tradeoff: under `person_profiles: 'identified_only'`, `setPersonProperties()`
+creates a person profile, so events from a guestbook visitor become identified (and
+billed as such) from that point on. Visitors who never submit stay anonymous. If auth is
+added later, call `identify(stableUserId, { name, email })` on login and `resetUser()`
+on logout.
 

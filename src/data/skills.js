@@ -22,7 +22,7 @@ export const skills = [
   { id: 'php', name: 'PHP', category: 'backend', main: true, icon: 'php', color: '#777BB4', sortOrder: CATEGORY_ORDER.main },
   { id: 'vuejs', name: 'Vue.js', category: 'frontend', main: true, icon: 'vuejs', color: '#4FC08D', sortOrder: CATEGORY_ORDER.main },
   // Frontend
-  { id: 'reactjs', name: 'React.js', category: 'frontend', icon: 'react', color: '#61DAFB', sortOrder: CATEGORY_ORDER.frontend },
+  { id: 'reactjs', name: 'React', category: 'frontend', icon: 'react', color: '#61DAFB', sortOrder: CATEGORY_ORDER.frontend },
   { id: 'tailwindcss', name: 'Tailwind CSS', category: 'frontend', icon: 'tailwindcss', color: '#06B6D4', sortOrder: CATEGORY_ORDER.frontend },
   { id: 'bootstrap', name: 'Bootstrap', category: 'frontend', icon: 'bootstrap', color: '#7952B3', sortOrder: CATEGORY_ORDER.frontend },
   { id: 'inertiajs', name: 'Inertia.js', category: 'frontend', icon: 'inertiajs', color: '#9553E9', sortOrder: CATEGORY_ORDER.frontend },
@@ -49,6 +49,8 @@ export const skills = [
   { id: 'google-colaboratory', name: 'Google Colaboratory', category: 'tools', icon: 'google-colaboratory', color: '#F9AB00', sortOrder: CATEGORY_ORDER.tools },
   { id: 'pusher', name: 'Pusher', category: 'tools', icon: 'pusher', color: '#C6214D', sortOrder: CATEGORY_ORDER.tools },
   { id: 'umami', name: 'Umami', category: 'tools', icon: 'umami', color: '#000000', sortOrder: CATEGORY_ORDER.tools },
+  { id: 'posthog', name: 'PostHog', category: 'tools', icon: 'posthog', color: '#1D4AFF', sortOrder: CATEGORY_ORDER.tools },
+  { id: 'vercel', name: 'Vercel', category: 'tools', icon: 'vercel', color: '#000000', sortOrder: CATEGORY_ORDER.tools },
   { id: 'google-analytics', name: 'Google Analytics', category: 'tools', icon: 'googleanalytics', color: '#E37400', sortOrder: CATEGORY_ORDER.tools },
   { id: 'google-tag-manager', name: 'Google Tag Manager', category: 'tools', icon: 'googletagmanager', color: '#246FDB', sortOrder: CATEGORY_ORDER.tools },
   { id: 'google-search-console', name: 'Google Search Console', category: 'tools', icon: 'googlesearchconsole', color: '#4285F4', sortOrder: CATEGORY_ORDER.tools },

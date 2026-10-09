@@ -18,7 +18,7 @@ export default {
     greeting: 'Hai, Saya Akmal Rahim',
     based: 'Kalimantan Selatan',
     summary:
-      'Saya adalah web developer dengan minat besar dalam membangun aplikasi web yang fungsional dan responsif, serta selalu terbuka mempelajari teknologi baru. Keahlian saya mencakup pengembangan backend dengan PHP (Laravel) dan Node.js (Express), manajemen database dengan MySQL dan PostgreSQL, serta pengembangan frontend dengan React.js dan Tailwind CSS.',
+      'Saya adalah web developer dengan minat besar dalam membangun aplikasi web yang fungsional dan responsif, serta selalu terbuka mempelajari teknologi baru. Keahlian saya mencakup pengembangan backend dengan PHP (Laravel) dan Node.js (Express), manajemen database dengan MySQL dan PostgreSQL, serta pengembangan frontend dengan React dan Tailwind CSS.',
     skills: 'Keahlian',
   },
   about: {
@@ -28,7 +28,7 @@ export default {
     empty: 'Konten menyusul.',
     bio: [
       'Saya adalah web developer dengan ketertarikan besar dalam membangun aplikasi web yang fungsional dan responsif. Saya menikmati proses mengubah ide menjadi produk digital yang nyata dan dapat digunakan, serta selalu terbuka mempelajari teknologi baru untuk meningkatkan kualitas pekerjaan saya.',
-      'Keahlian saya mencakup pengembangan backend dan frontend. Di sisi backend, saya biasanya menggunakan PHP (Laravel) dan Node.js (Express) untuk membangun API serta mengelola logika server, didukung pengalaman mengelola database MySQL dan PostgreSQL. Di sisi frontend, saya menggunakan React.js dan Tailwind CSS untuk membangun antarmuka yang bersih, terstruktur, dan interaktif.',
+      'Keahlian saya mencakup pengembangan backend dan frontend. Di sisi backend, saya biasanya menggunakan PHP (Laravel) dan Node.js (Express) untuk membangun API serta mengelola logika server, didukung pengalaman mengelola database MySQL dan PostgreSQL. Di sisi frontend, saya menggunakan React dan Tailwind CSS untuk membangun antarmuka yang bersih, terstruktur, dan interaktif.',
       'Saat ini saya bekerja sebagai Web Developer di CV. Impost Media Indonesia, agensi digital marketing terintegrasi yang berlokasi di Banjarbaru, Kalimantan Selatan. Lebih dari sekadar development, saya berperan sebagai tech architect yang menerjemahkan visi klien dan strategi agensi menjadi solusi digital yang powerful.',
     ],
   },

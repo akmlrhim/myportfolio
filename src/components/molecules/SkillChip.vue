@@ -26,7 +26,7 @@ function handleImgError(e) {
       <img
         :src="imgSrc"
         :alt="name"
-        class="w-5 h-5"
+        class="w-5 h-5 object-contain"
         loading="lazy"
         @error="handleImgError"
       />
