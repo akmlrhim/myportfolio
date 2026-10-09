@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const wakatimeApi = env.WAKATIME_API || env.VITE_WAKATIME_API || process.env.WAKATIME_API || ''
@@ -26,6 +25,7 @@ export default defineConfig(({ mode }) => {
           manualChunks(id) {
             if (id.includes('node_modules')) {
               if (id.includes('motion')) return 'vendor-motion'
+              if (id.includes('posthog')) return 'vendor-posthog'
               if (id.includes('vue-router')) return 'vendor-router'
               if (id.includes('pinia')) return 'vendor-pinia'
               if (id.includes('@vue') || id.includes('/vue/')) return 'vendor-vue'
@@ -41,7 +41,6 @@ export default defineConfig(({ mode }) => {
           target: 'https://api.wakatime.com/api/v1',
           changeOrigin: true,
           rewrite: (path) => {
-            // `path` includes the query string, so split it before matching.
             const [route, query = ''] = path.replace(/^\/api\/wakatime/, '').split('?')
             const upstream =
               route === '/all-time'
@@ -49,8 +48,6 @@ export default defineConfig(({ mode }) => {
                 : '/users/current/summaries'
             return query ? `${upstream}?${query}` : upstream
           },
-          // Inject auth server-side so the API key never reaches the browser
-          // (mirrors the production /api/wakatime Vercel Function).
           headers: wakatimeApi
             ? { Authorization: `Basic ${Buffer.from(wakatimeApi).toString('base64')}` }
             : {},

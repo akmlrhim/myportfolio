@@ -5,6 +5,7 @@ import DefaultLayout from './components/templates/DefaultLayout.vue'
 import PageSkeleton from './components/organisms/PageSkeleton.vue'
 import router from './router'
 import { pageview } from '@vercel/analytics'
+import { capturePageview } from './utils/analytics'
 
 const route = useRoute()
 const routeLoading = ref(false)
@@ -15,6 +16,7 @@ router.beforeEach((to) => {
 router.afterEach((to) => {
   routeLoading.value = false
   pageview({ route: to.path })
+  capturePageview(to.path, to.meta?.title)
 })
 
 watch(

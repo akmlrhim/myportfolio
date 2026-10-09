@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion-v'
 import BaseInput from '@/components/atoms/BaseInput.vue'
 import BaseTextarea from '@/components/atoms/BaseTextarea.vue'
 import BaseButton from '@/components/atoms/BaseButton.vue'
+import { captureEvent, identifyUser } from '@/utils/analytics'
 
 const name = ref('')
 const message = ref('')
@@ -11,6 +12,10 @@ const submitted = ref(false)
 
 function submit() {
   if (!name.value || !message.value) return
+
+  identifyUser(name.value.trim(), { name: name.value.trim(), source: 'guestbook' })
+  captureEvent('guestbook_submitted')
+
   submitted.value = true
   name.value = ''
   message.value = ''
