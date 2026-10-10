@@ -55,6 +55,9 @@ export default {
     links: 'Tautan',
     empty: 'Tidak ada proyek.',
     emptyDesc: 'Coba pilih kategori lain.',
+    prev: 'Sebelumnya',
+    next: 'Berikutnya',
+    pageInfo: 'Halaman {page} dari {total}',
   },
   page: {
     about: 'Tentang Saya',

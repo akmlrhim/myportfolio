@@ -11,6 +11,7 @@ const SUMMARY_CARDS = 6
       <StatCardSkeleton
         v-for="i in SUMMARY_CARDS"
         :key="i"
+        order="label-first"
         :class="{ 'col-span-2 lg:col-span-1': i === 5 }"
       />
     </div>

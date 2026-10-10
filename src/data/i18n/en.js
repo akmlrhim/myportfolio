@@ -55,6 +55,9 @@ export default {
     links: 'Links',
     empty: 'No projects found.',
     emptyDesc: 'Try selecting a different category.',
+    prev: 'Previous',
+    next: 'Next',
+    pageInfo: 'Page {page} of {total}',
   },
   page: {
     about: 'About Me',

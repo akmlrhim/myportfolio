@@ -8,7 +8,7 @@ const CARD_COUNT = 7
 <template>
   <div aria-busy="true" aria-label="Loading GitHub stats">
     <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
-      <StatCardSkeleton v-for="i in CARD_COUNT" :key="i" />
+      <StatCardSkeleton v-for="i in CARD_COUNT" :key="i" order="value-first" />
     </div>
 
     <!-- Contribution graph skeleton -->

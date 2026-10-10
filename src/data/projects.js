@@ -10,6 +10,8 @@ export const projects = [
   {
     slug: 'ms-construction',
     category: 'company-profile',
+    image: '/images/projects/ms-construction.webp',
+    imageSize: { width: 1280, height: 582 },
     stack: ['reactjs', 'tailwindcss', 'framermotion'],
     links: { live: 'https://www.msconstructione.com/', repo: null },
     en: { title: 'MS Construction' },
@@ -19,6 +21,8 @@ export const projects = [
   {
     slug: 'morarep',
     category: 'company-profile',
+    image: '/images/projects/morarep.webp',
+    imageSize: { width: 1280, height: 580 },
     stack: [
       'gsap',
       'inertiajs',
@@ -37,6 +41,8 @@ export const projects = [
   {
     slug: 'attacargo',
     category: 'company-profile',
+    image: '/images/projects/attacargo.webp',
+    imageSize: { width: 1280, height: 618 },
     stack: [
       'filament',
       'gsap',
@@ -55,6 +61,8 @@ export const projects = [
   {
     slug: 'kusuma-jp',
     category: 'company-profile',
+    image: '/images/projects/kusuma-jp.webp',
+    imageSize: { width: 1280, height: 562 },
     stack: [
       'filament',
       'gsap',
@@ -73,6 +81,8 @@ export const projects = [
   {
     slug: 'impost-media',
     category: 'company-profile',
+    image: '/images/projects/impost-media.webp',
+    imageSize: { width: 1280, height: 585 },
     stack: ['filament', 'gsap', 'inertiajs', 'laravel', 'mysql', 'reactjs', 'tailwindcss'],
     links: { live: 'https://www.impostmedia.com', repo: null },
     en: { title: 'Impost Media Indonesia' },
@@ -82,6 +92,8 @@ export const projects = [
   {
     slug: 'villa-tebing-buluh',
     category: 'company-profile',
+    image: '/images/projects/villa-tebing-buluh.webp',
+    imageSize: { width: 1280, height: 581 },
     stack: ['vuejs', 'tailwindcss', 'mysql', 'express.js'],
     links: { live: 'https://www.villatebingbuluh.com', repo: null },
     en: { title: 'Villa Tebing Buluh' },
@@ -91,6 +103,8 @@ export const projects = [
   {
     slug: 'hris-im',
     category: 'web-app',
+    image: '/images/projects/hris-im.webp',
+    imageSize: { width: 1280, height: 616 },
     stack: ['livewire', 'laravel', 'mysql', 'tailwindcss'],
     links: { live: 'https://www.hris.impostmedia.com', repo: null },
     en: { title: 'HRIS Impost Media' },
@@ -100,6 +114,8 @@ export const projects = [
   {
     slug: 'wspace-im',
     category: 'web-app',
+    image: '/images/projects/wspace-im.webp',
+    imageSize: { width: 1280, height: 610 },
     stack: [
       'livewire',
       'inertiajs',
@@ -118,6 +134,8 @@ export const projects = [
   {
     slug: 'ops-im',
     category: 'web-app',
+    image: '/images/projects/ops-im.webp',
+    imageSize: { width: 1280, height: 590 },
     stack: ['inertiajs', 'laravel', 'mysql', 'tailwindcss', 'shadcn/ui', 'typescript', 'pusher'],
     links: { live: 'https://www.ops.impostmedia.com', repo: null },
     en: { title: 'Operation Impost Media' },

@@ -7,7 +7,7 @@ import Skeleton from '@/components/atoms/BaseSkeleton.vue'
 <template>
   <div role="status" aria-busy="true" aria-label="Loading about page" class="py-6 lg:py-10">
     <Skeleton w="w-48" h="h-8" rounded="rounded-xl" />
-    <div class="mt-4 space-y-2">
+    <div class="mt-3 space-y-2">
       <Skeleton w="w-full max-w-2xl" h="h-4" />
       <Skeleton w="w-2/3 max-w-xl" h="h-4" />
     </div>
@@ -26,15 +26,15 @@ import Skeleton from '@/components/atoms/BaseSkeleton.vue'
     <div v-for="section in 2" :key="section" class="mt-12">
       <Skeleton w="w-28" h="h-6" rounded="rounded-lg" />
       <div class="mt-5 ml-5 space-y-8 border-l border-neutral-200 py-1 dark:border-neutral-800 lg:ml-1.5">
-        <div v-for="i in 2" :key="i" class="relative pl-6">
+        <div v-for="i in 2" :key="i" class="relative pl-14">
           <div class="flex items-center gap-3">
-            <Skeleton w="w-10" h="h-10" rounded="rounded-full" />
+            <Skeleton w="w-10" h="h-10" rounded="rounded-xl" class="absolute left-0 top-0 -translate-x-1/2" />
             <div class="flex-1 space-y-2">
               <Skeleton w="w-1/3" h="h-4" />
               <Skeleton w="w-1/4" h="h-3" />
             </div>
           </div>
-          <div class="mt-3 space-y-2">
+          <div class="mt-2.5 space-y-1.5">
             <Skeleton w="w-full" h="h-3" />
             <Skeleton w="w-3/4" h="h-3" />
           </div>

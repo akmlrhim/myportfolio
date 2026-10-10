@@ -66,10 +66,21 @@ export const useAppStore = defineStore('app', () => {
 
   // --- project filters ---
   const activeProjectFilter = ref('all')
+  const currentPage = ref(1)
+  const PROJECT_PAGE_SIZE = 8
 
   const filteredProjects = computed(() => {
     if (activeProjectFilter.value === 'all') return projects
     return projects.filter((project) => project.category === activeProjectFilter.value)
+  })
+
+  const projectTotalPages = computed(() =>
+    Math.max(1, Math.ceil(filteredProjects.value.length / PROJECT_PAGE_SIZE)),
+  )
+
+  const paginatedProjects = computed(() => {
+    const start = (currentPage.value - 1) * PROJECT_PAGE_SIZE
+    return filteredProjects.value.slice(start, start + PROJECT_PAGE_SIZE)
   })
 
   const projectFilterCounts = computed(() => {
@@ -83,6 +94,20 @@ export const useAppStore = defineStore('app', () => {
 
   function setProjectFilter(filter) {
     activeProjectFilter.value = filter
+    currentPage.value = 1
+  }
+
+  function setProjectPage(page) {
+    const target = Math.min(Math.max(1, page), projectTotalPages.value)
+    currentPage.value = target
+  }
+
+  function nextProjectPage() {
+    setProjectPage(currentPage.value + 1)
+  }
+
+  function prevProjectPage() {
+    setProjectPage(currentPage.value - 1)
   }
 
   return {
@@ -99,5 +124,12 @@ export const useAppStore = defineStore('app', () => {
     filteredProjects,
     projectFilterCounts,
     setProjectFilter,
+    currentPage,
+    PROJECT_PAGE_SIZE,
+    projectTotalPages,
+    paginatedProjects,
+    setProjectPage,
+    nextProjectPage,
+    prevProjectPage,
   }
 })
