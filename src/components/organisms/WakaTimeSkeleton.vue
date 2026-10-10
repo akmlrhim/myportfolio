@@ -33,20 +33,14 @@ const SUMMARY_CARDS = 6
       </div>
     </div>
 
-    <!-- Languages / Editors skeleton -->
-    <div class="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <div
-        v-for="panel in 2"
-        :key="panel"
-        class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800"
-      >
-        <Skeleton w="w-28" h="h-3" />
-        <div class="mt-4 space-y-3">
-          <div v-for="i in 5" :key="i" class="flex items-center gap-3">
-            <Skeleton w="w-28" h="h-3.5" />
-            <Skeleton w="w-full" h="h-2" rounded="rounded-full" class="flex-1" />
-            <Skeleton w="w-10" h="h-3" />
-          </div>
+    <!-- Languages skeleton -->
+    <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+      <Skeleton w="w-28" h="h-3" />
+      <div class="mt-4 space-y-3">
+        <div v-for="i in 5" :key="i" class="flex items-center gap-3">
+          <Skeleton w="w-28" h="h-3.5" />
+          <Skeleton w="w-full" h="h-2" rounded="rounded-full" class="flex-1" />
+          <Skeleton w="w-10" h="h-3" />
         </div>
       </div>
     </div>

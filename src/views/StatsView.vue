@@ -85,23 +85,12 @@ const dailyBars = computed(() => {
 const maxWtLangSeconds = computed(() =>
   Math.max(...(wtData.value?.languages ?? []).map((l) => l.seconds), 1),
 )
-const maxWtEditorSeconds = computed(() =>
-  Math.max(...(wtData.value?.editors ?? []).map((e) => e.seconds), 1),
-)
 
 const wtLanguages = computed(() => {
   const total = totalSeconds.value || 1
   return (wtData.value?.languages ?? []).slice(0, 8).map((l) => ({
     ...l,
     percent: Math.round((l.seconds / total) * 100),
-  }))
-})
-
-const wtEditors = computed(() => {
-  const total = totalSeconds.value || 1
-  return (wtData.value?.editors ?? []).map((e) => ({
-    ...e,
-    percent: Math.round((e.seconds / total) * 100),
   }))
 })
 
@@ -410,48 +399,25 @@ const contribColors = computed(() =>
           </div>
         </div>
 
-        <!-- Languages / Editors -->
-        <div class="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-              {{ store.t.stats.topLanguages }}
-            </h3>
-            <div class="mt-4 space-y-3">
-              <div v-for="l in wtLanguages" :key="l.name" class="flex items-center gap-3">
-                <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ l.name }}</span>
-                <div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                  <motion.div
-                    class="h-full rounded-full"
-                    :initial="{ width: 0 }"
-                    :whileInView="{ width: `${(l.seconds / maxWtLangSeconds) * 100}%` }"
-                    :viewport="{ once: true }"
-                    :transition="{ duration: 0.8, ease: 'easeOut' }"
-                    :style="{ backgroundColor: l.color }"
-                  />
-                </div>
-                <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400">{{ l.percent }}%</span>
+        <!-- Languages -->
+        <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            {{ store.t.stats.topLanguages }}
+          </h3>
+          <div class="mt-4 space-y-3">
+            <div v-for="l in wtLanguages" :key="l.name" class="flex items-center gap-3">
+              <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ l.name }}</span>
+              <div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
+                <motion.div
+                  class="h-full rounded-full"
+                  :initial="{ width: 0 }"
+                  :whileInView="{ width: `${(l.seconds / maxWtLangSeconds) * 100}%` }"
+                  :viewport="{ once: true }"
+                  :transition="{ duration: 0.8, ease: 'easeOut' }"
+                  :style="{ backgroundColor: l.color }"
+                />
               </div>
-            </div>
-          </div>
-
-          <div class="rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-              {{ store.t.stats.editors }}
-            </h3>
-            <div class="mt-4 space-y-3">
-              <div v-for="e in wtEditors" :key="e.name" class="flex items-center gap-3">
-                <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ e.name }}</span>
-                <div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                  <motion.div
-                    class="h-full rounded-full bg-accent"
-                    :initial="{ width: 0 }"
-                    :whileInView="{ width: `${(e.seconds / maxWtEditorSeconds) * 100}%` }"
-                    :viewport="{ once: true }"
-                    :transition="{ duration: 0.8, ease: 'easeOut' }"
-                  />
-                </div>
-                <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400">{{ e.percent }}%</span>
-              </div>
+              <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400">{{ l.percent }}%</span>
             </div>
           </div>
         </div>
