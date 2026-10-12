@@ -34,7 +34,7 @@ export const experience = [
         'Built an internal CRM system (lead management, automated invoicing, MOU generation) using Laravel, Inertia.js, React, and TypeScript, capturing 20+ leads since the early implementation phase.',
         'Automated Laravel deployment with GitHub Actions (CI/CD) on shared hosting, cutting deployment time from 30 minutes to 10 minutes (67% faster).',
         'Designed a company profile website for a client using Laravel 12, Inertia.js, React, and Filament as the admin panel, with interactive animations (React Three Fiber, GSAP, Lenis).',
-        'Optimized client technical SEO through Google Search Console, GA4, and Google Tag Manager setup, increasing organic traffic by more than 60%.',
+        'Optimized client technical SEO setup, increasing organic traffic by more than 60%.',
       ],
     },
     id: {
@@ -46,7 +46,7 @@ export const experience = [
         'Mengembangkan sistem CRM internal (lead management, invoicing otomatis, generate MOU) menggunakan Laravel, Inertia.js, React, dan TypeScript, berhasil menampung 20+ data lead sejak fase awal implementasi.',
         'Mengotomatisasi proses deployment aplikasi Laravel dengan GitHub Actions (CI/CD) pada shared hosting, memangkas waktu deployment dari 30 menit menjadi 10 menit (67% lebih cepat).',
         'Merancang company profile website untuk klien menggunakan Laravel 12, Inertia.js, React, dan Filament sebagai admin panel, dilengkapi animasi interaktif (React Three Fiber, GSAP, Lenis).',
-        'Mengoptimalkan SEO teknis klien melalui setup Google Search Console, GA4, dan Google Tag Manager, menaikkan organic traffic lebih dari 60%.',
+        'Mengoptimalkan setup SEO teknis klien, menaikkan organic traffic lebih dari 60%.',
       ],
     },
   },

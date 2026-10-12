@@ -41,19 +41,10 @@ export const skills = [
   { id: 'prisma', name: 'Prisma', category: 'database', icon: 'prisma', color: '#2D3748', sortOrder: CATEGORY_ORDER.database },
   // Tools
   { id: 'bun', name: 'Bun', category: 'tools', icon: 'bun', color: '#FBF0DF', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'npm', name: 'NPM', category: 'tools', icon: 'npm', color: '#CB3837', sortOrder: CATEGORY_ORDER.tools },
   { id: 'github', name: 'GitHub', category: 'tools', icon: 'github', color: '#181717', sortOrder: CATEGORY_ORDER.tools },
   { id: 'gitlab', name: 'GitLab', category: 'tools', icon: 'gitlab', color: '#FC6D26', sortOrder: CATEGORY_ORDER.tools },
   { id: 'figma', name: 'Figma', category: 'tools', icon: 'figma', color: '#F24E1E', sortOrder: CATEGORY_ORDER.tools },
   { id: 'github-actions', name: 'GitHub Actions', category: 'tools', icon: 'github-actions', color: '#2088FF', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'google-colaboratory', name: 'Google Colaboratory', category: 'tools', icon: 'google-colaboratory', color: '#F9AB00', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'pusher', name: 'Pusher', category: 'tools', icon: 'pusher', color: '#C6214D', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'umami', name: 'Umami', category: 'tools', icon: 'umami', color: '#000000', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'posthog', name: 'PostHog', category: 'tools', icon: 'posthog', color: '#1D4AFF', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'vercel', name: 'Vercel', category: 'tools', icon: 'vercel', color: '#000000', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'google-analytics', name: 'Google Analytics', category: 'tools', icon: 'googleanalytics', color: '#E37400', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'google-tag-manager', name: 'Google Tag Manager', category: 'tools', icon: 'googletagmanager', color: '#246FDB', sortOrder: CATEGORY_ORDER.tools },
-  { id: 'google-search-console', name: 'Google Search Console', category: 'tools', icon: 'googlesearchconsole', color: '#4285F4', sortOrder: CATEGORY_ORDER.tools },
 ]
 
 // Quick lookup: skillId -> skill object (used by projects, stats, etc.)

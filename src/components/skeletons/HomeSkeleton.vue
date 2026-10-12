@@ -27,9 +27,9 @@ import Skeleton from '@/components/atoms/BaseSkeleton.vue'
       <Skeleton v-for="i in 6" :key="i" w="w-24" h="h-8" rounded="rounded-full" />
     </div>
 
-    <!-- SkillGrid: mt-6, chips px-3 py-2 rounded-xl (39 skills, wraps) -->
+    <!-- SkillGrid: mt-6, chips px-3 py-2 rounded-xl (30 skills, wraps) -->
     <div class="mt-6 flex flex-wrap gap-2">
-      <Skeleton v-for="i in 39" :key="i" w="w-28" h="h-9" rounded="rounded-xl" />
+      <Skeleton v-for="i in 30" :key="i" w="w-28" h="h-9" rounded="rounded-xl" />
     </div>
   </div>
 </template>
