@@ -17,6 +17,9 @@ import { capturePageview } from './utils/analytics'
 
 const route = useRoute()
 const routeLoading = ref(false)
+// Destination route name captured before the route object updates, so the
+// skeleton always matches the page being navigated to, not the previous one.
+const loadingRouteName = ref(null)
 
 // Map each route name to its layout-matched skeleton.
 const SKELETONS = {
@@ -29,13 +32,17 @@ const SKELETONS = {
   NotFound: NotFoundSkeleton,
 }
 
-const activeSkeleton = computed(() => SKELETONS[route.name] || PageSkeleton)
+const activeSkeleton = computed(() => SKELETONS[loadingRouteName.value] || PageSkeleton)
 
 router.beforeEach((to) => {
-  if (to.path !== route.path) routeLoading.value = true
+  if (to.path !== route.path) {
+    loadingRouteName.value = to.name
+    routeLoading.value = true
+  }
 })
 router.afterEach((to) => {
   routeLoading.value = false
+  loadingRouteName.value = null
   pageview({ route: to.path })
   capturePageview(to.path, to.meta?.title)
 })
