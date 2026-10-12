@@ -7,6 +7,7 @@ import App from './App.vue'
 import router from './router'
 import { inject } from '@vercel/analytics'
 import { captureError, initAnalytics, isAnalyticsEnabled } from './utils/analytics'
+import { initBotProtection } from './utils/botid'
 
 const app = createApp(App)
 
@@ -14,6 +15,7 @@ app.use(createPinia())
 app.use(router)
 
 initAnalytics()
+initBotProtection()
 
 if (isAnalyticsEnabled) {
   app.config.errorHandler = (err, _instance, info) =>

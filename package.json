@@ -18,6 +18,7 @@
     "@vercel/functions": "^3.9.11",
     "@vercel/speed-insights": "^2.0.0",
     "@vueuse/core": "^15.0.0",
+    "botid": "^1.5.11",
     "motion-v": "^2.6.0",
     "pinia": "^4.0.3",
     "posthog-js": "^1.438.2",
