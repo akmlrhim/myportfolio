@@ -15,17 +15,17 @@ defineProps({
       :key="i"
       class="rounded-lg border border-neutral-200 bg-white px-4 py-3 dark:border-neutral-800 dark:bg-neutral-900"
     >
-      <!-- Header: repo pill (left) + time (right) -->
+      <!-- Header: repo pill (px-2.5 py-0.5 text-xs + 16px icon) + time (text-[10px]) -->
       <div class="mb-1.5 flex items-start justify-between gap-3">
         <div class="skeleton-shimmer h-5 w-24 rounded-full" />
-        <div class="skeleton-shimmer h-3 w-16 rounded-md" />
+        <div class="skeleton-shimmer h-4 w-16 rounded-md" />
       </div>
 
-      <!-- Message (single truncated line) -->
-      <div class="skeleton-shimmer h-4 w-full max-w-md rounded-md" />
+      <!-- Message: text-sm truncate -->
+      <div class="skeleton-shimmer h-5 w-2/3 max-w-md rounded-md" />
 
-      <!-- Footer: SHA -->
-      <div class="skeleton-shimmer mt-1.5 h-2.5 w-28 rounded-sm" />
+      <!-- Footer: SHA + owner, mt-0.5 text-[10px] leading-none -->
+      <div class="skeleton-shimmer mt-0.5 h-2.5 w-32 rounded-sm" />
     </div>
   </div>
 </template>

@@ -6,12 +6,9 @@ import PageSkeleton from './components/organisms/PageSkeleton.vue'
 import HomeSkeleton from './components/skeletons/HomeSkeleton.vue'
 import AboutSkeleton from './components/skeletons/AboutSkeleton.vue'
 import ProjectsSkeleton from './components/skeletons/ProjectsSkeleton.vue'
-import ComingSoonSkeleton from './components/skeletons/ComingSoonSkeleton.vue'
 import ActivityPageSkeleton from './components/skeletons/ActivityPageSkeleton.vue'
 import StatsSkeleton from './components/skeletons/StatsSkeleton.vue'
-import GuestbookSkeleton from './components/skeletons/GuestbookSkeleton.vue'
 import ContactSkeleton from './components/skeletons/ContactSkeleton.vue'
-import LinksSkeleton from './components/skeletons/LinksSkeleton.vue'
 import NotFoundSkeleton from './components/skeletons/NotFoundSkeleton.vue'
 import router from './router'
 import { pageview } from '@vercel/analytics'
@@ -25,14 +22,10 @@ const routeLoading = ref(false)
 const SKELETONS = {
   home: HomeSkeleton,
   about: AboutSkeleton,
-  creations: ComingSoonSkeleton,
-  achievements: ComingSoonSkeleton,
   projects: ProjectsSkeleton,
   activity: ActivityPageSkeleton,
   stats: StatsSkeleton,
-  guestbook: GuestbookSkeleton,
   contact: ContactSkeleton,
-  links: LinksSkeleton,
   NotFound: NotFoundSkeleton,
 }
 

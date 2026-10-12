@@ -34,21 +34,6 @@ export function capturePageview(path, title) {
   })
 }
 
-export function captureEvent(name, properties) {
-  if (!isAnalyticsEnabled) return
-  posthog.capture(name, properties)
-}
-
-export function setPersonProperties(properties) {
-  if (!isAnalyticsEnabled || !properties) return
-  posthog.setPersonProperties(properties)
-}
-
-export function resetUser() {
-  if (!isAnalyticsEnabled) return
-  posthog.reset()
-}
-
 export function captureError(error, properties) {
   if (!isAnalyticsEnabled) return
   posthog.captureException(error, properties)

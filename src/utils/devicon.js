@@ -1,4 +1,4 @@
-// Maps internal icon keys to devicon/simple-icons SVG files shipped in /public/icons/devicon.
+// Maps internal icon keys to devicon SVG files shipped in /public/icons/devicon.
 const DEVICON_MAP = {
   javascript: 'javascript-javascript-original',
   react: 'react-react-original',
@@ -21,7 +21,6 @@ const DEVICON_MAP = {
   googleanalytics: 'googleanalytics-googleanalytics-original',
   googletagmanager: 'googletagmanager-googletagmanager-original',
   googlesearchconsole: 'googlesearchconsole-googlesearchconsole-original',
-  laragon: 'laragon-original',
   prisma: 'prisma-prisma-original',
   expressjs: 'express-js-original',
   express: 'express-js-original',
@@ -33,10 +32,6 @@ const DEVICON_MAP = {
   tailwindcss: 'tailwindcss-tailwindcss-original',
   bootstrap: 'bootstrap-bootstrap-original',
   gsap: 'gsap-gsap-original',
-  pinia: 'pinia-pinia-original',
-  vite: 'vite-vite-original',
-  scikitlearn: 'scikitlearn-scikitlearn-original',
-  pandas: 'pandas-pandas-original',
   pusher: 'pusher-pusher-original',
   umami: 'umami-umami-original',
   livewire: 'livewire-livewire-original',

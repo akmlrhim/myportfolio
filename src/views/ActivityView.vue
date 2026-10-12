@@ -47,7 +47,7 @@ function timeAgo(isoDate) {
 <template>
   <PageHeader :title="store.t.page.activity" :description="store.t.page.activityDesc">
     <!-- Loading state -->
-    <ActivitySkeleton v-if="loading && commits.length === 0" :count="10" />
+    <ActivitySkeleton v-if="loading && commits.length === 0" class="mt-8" :count="10" />
 
     <!-- Error state -->
     <motion.div

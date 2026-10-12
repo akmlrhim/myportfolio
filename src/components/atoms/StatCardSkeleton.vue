@@ -13,12 +13,12 @@ defineProps({
 <template>
   <div class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
     <template v-if="order === 'value-first'">
-      <Skeleton w="w-1/3" h="h-6" rounded="rounded-lg" />
-      <Skeleton w="w-2/3" h="h-3" class="mt-1.5" />
+      <Skeleton w="w-1/3" h="h-7" rounded="rounded-lg" />
+      <Skeleton w="w-2/3" h="h-4" class="mt-1" />
     </template>
     <template v-else>
-      <Skeleton w="w-2/3" h="h-3" />
-      <Skeleton w="w-1/2" h="h-5" rounded="rounded-lg" class="mt-1.5" />
+      <Skeleton w="w-2/3" h="h-4" />
+      <Skeleton w="w-1/2" h="h-6" rounded="rounded-lg" class="mt-1.5" />
     </template>
   </div>
 </template>
