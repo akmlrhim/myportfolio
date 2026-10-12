@@ -15,6 +15,7 @@ import LinksSkeleton from './components/skeletons/LinksSkeleton.vue'
 import NotFoundSkeleton from './components/skeletons/NotFoundSkeleton.vue'
 import router from './router'
 import { pageview } from '@vercel/analytics'
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 import { capturePageview } from './utils/analytics'
 
 const route = useRoute()
@@ -64,5 +65,6 @@ watch(
         <component :is="Component" v-else :key="route.path" />
       </Transition>
     </RouterView>
+    <SpeedInsights />
   </DefaultLayout>
 </template>
