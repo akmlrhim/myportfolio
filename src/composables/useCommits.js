@@ -1,12 +1,28 @@
 import { ref, onMounted } from 'vue'
-import { useAppStore } from '@/stores/app'
+import { statsConfig } from '@/data/stats'
 
+const GITHUB_USER = statsConfig.githubUser
 const PER_PAGE = 10
+
+const searchUrl = () =>
+  `https://api.github.com/search/commits?q=author:${GITHUB_USER}&sort=committer-date&order=desc&per_page=${PER_PAGE}`
+
+// --- commit cache (localStorage) ---
+const CACHE_KEY = `gh-commits:v2:${GITHUB_USER}`
 const CACHE_TTL = 60 * 60 * 1000 // 1 hour
 
-function readCache(key) {
+// Remove legacy cache keys from older implementations.
+for (const legacy of [`gh-commits:${GITHUB_USER}`, `gh-events:${GITHUB_USER}`]) {
   try {
-    const raw = localStorage.getItem(key)
+    localStorage.removeItem(legacy)
+  } catch {
+    // ignore
+  }
+}
+
+function readCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
     if (!raw) return null
     const p = JSON.parse(raw)
     if (!Array.isArray(p?.items)) return null
@@ -17,15 +33,15 @@ function readCache(key) {
   }
 }
 
-function writeCache(key, items) {
+function writeCache(items) {
   try {
-    localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), items }))
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), items }))
   } catch {
     // storage full
   }
 }
 
-function mapCommit(item, githubUser) {
+function mapCommit(item) {
   const repoFullName = item.repository?.full_name ?? ''
   const repoName = repoFullName.split('/').pop() || repoFullName
   return {
@@ -33,35 +49,19 @@ function mapCommit(item, githubUser) {
     fullSha: item.sha,
     message: (item.commit?.message ?? '').split('\n')[0].trim() || '(no message)',
     repo: repoName,
-    owner: item.repository?.owner?.login ?? githubUser,
+    owner: item.repository?.owner?.login ?? GITHUB_USER,
     date: item.commit?.committer?.date ?? item.commit?.author?.date,
     url: item.html_url,
   }
 }
 
 export function useCommits() {
-  const store = useAppStore()
   const loading = ref(true)
   const error = ref(null)
   const commits = ref([])
 
   async function fetchCommits() {
-    const githubUser = store.statsConfig.githubUser
-    if (!githubUser) {
-      commits.value = []
-      loading.value = false
-      return
-    }
-
-    // Remove legacy cache keys.
-    try {
-      localStorage.removeItem(`gh-events:${githubUser}`)
-    } catch { /* noop */ }
-
-    const cacheKey = `gh-commits:${githubUser}`
-    const searchUrl = `https://api.github.com/search/commits?q=author:${githubUser}&sort=committer-date&order=desc&per_page=${PER_PAGE}`
-
-    const cached = readCache(cacheKey)
+    const cached = readCache()
     if (cached) {
       commits.value = cached
       loading.value = false
@@ -71,13 +71,13 @@ export function useCommits() {
     loading.value = true
     error.value = null
     try {
-      const res = await fetch(searchUrl, {
+      const res = await fetch(searchUrl(), {
         headers: { Accept: 'application/vnd.github+json' },
       })
       if (!res.ok) throw new Error(`Search API: ${res.status}`)
       const data = await res.json()
-      commits.value = (data.items ?? []).slice(0, PER_PAGE).map((item) => mapCommit(item, githubUser))
-      if (commits.value.length > 0) writeCache(cacheKey, commits.value)
+      commits.value = (data.items ?? []).slice(0, PER_PAGE).map(mapCommit)
+      if (commits.value.length > 0) writeCache(commits.value)
     } catch (e) {
       error.value = e.message
       commits.value = []

@@ -1,5 +1,6 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
+import { projectCategories } from '@/data/projects'
 import FilterPill from '@/components/molecules/FilterPill.vue'
 
 const store = useAppStore()
@@ -8,7 +9,7 @@ const store = useAppStore()
 <template>
   <div class="flex flex-wrap gap-2">
     <FilterPill
-      v-for="cat in store.projectCategories"
+      v-for="cat in projectCategories"
       :key="cat.id"
       :label="store.t.projectFilter[cat.labelKey]"
       :count="store.projectFilterCounts[cat.id]"

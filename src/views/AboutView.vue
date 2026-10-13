@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { education, experience } from '@/data/about'
 import PageHeader from '@/components/organisms/PageHeader.vue'
 import TimelineItem from '@/components/molecules/TimelineItem.vue'
 import BaseCard from '@/components/atoms/BaseCard.vue'
@@ -14,8 +15,8 @@ function localize(entry) {
   return { logo: entry.logo, ...(entry[store.lang] || entry.en) }
 }
 
-const eduItems = computed(() => (store.education || []).map(localize))
-const expItems = computed(() => (store.experience || []).map(localize))
+const eduItems = computed(() => education.map(localize))
+const expItems = computed(() => experience.map(localize))
 </script>
 
 <template>

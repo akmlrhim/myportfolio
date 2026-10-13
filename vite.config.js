@@ -52,14 +52,6 @@ export default defineConfig(({ mode }) => {
             ? { Authorization: `Basic ${Buffer.from(wakatimeApi).toString('base64')}` }
             : {},
         },
-        '/api/portfolio': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-        },
-        '/api/admin': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-        },
       },
     },
   }

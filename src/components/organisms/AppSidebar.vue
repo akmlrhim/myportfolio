@@ -1,5 +1,6 @@
 <script setup>
 import { useAppStore } from '@/stores/app'
+import { profile } from '@/data/profile'
 import ProfileSection from '@/components/organisms/ProfileSection.vue'
 import SidebarControls from '@/components/organisms/SidebarControls.vue'
 import SidebarNav from '@/components/organisms/SidebarNav.vue'
@@ -18,8 +19,8 @@ const year = computed(() => new Date().getFullYear())
       bg-white dark:bg-neutral-950 z-30
       flex-col
     ">
-    <ProfileSection :name="store.profile.name" :verified="store.profile.verified"
-      :open-to-work="store.profile.openToWork" :open-to-work-label="store.t.sidebar.openToWork"
+    <ProfileSection :name="profile.name" :verified="profile.verified"
+      :open-to-work="profile.openToWork" :open-to-work-label="store.t.sidebar.openToWork"
       :location="store.t.hero.based">
       <template #controls>
         <SidebarControls />
@@ -29,7 +30,7 @@ const year = computed(() => new Date().getFullYear())
     <SidebarNav />
 
     <div class="p-4 border-t border-neutral-200 dark:border-neutral-800 hidden lg:block">
-      <p class="text-xs text-neutral-500 dark:text-neutral-500">&copy; {{ year }} {{ store.profile.name }}</p>
+      <p class="text-xs text-neutral-500 dark:text-neutral-500">&copy; {{ year }} {{ profile.name }}</p>
     </div>
   </aside>
 </template>

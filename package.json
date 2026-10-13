@@ -10,12 +10,9 @@
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/",
-    "db:seed": "node --env-file=.env db/seed.mjs"
+    "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "@neon/config": "^1.9.1",
-    "@neon/env": "^1.6.1",
     "@tailwindcss/vite": "^4.3.3",
     "@vercel/analytics": "^2.0.1",
     "@vercel/functions": "^3.9.11",
@@ -23,7 +20,6 @@
     "@vueuse/core": "^15.0.0",
     "botid": "^1.5.11",
     "motion-v": "^2.6.0",
-    "pg": "^8.23.1",
     "pinia": "^4.0.3",
     "posthog-js": "^1.438.2",
     "tailwindcss": "^4.3.3",

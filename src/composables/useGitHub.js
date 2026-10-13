@@ -1,11 +1,19 @@
 import { ref, onMounted } from 'vue'
-import { useAppStore } from '@/stores/app'
+import { statsConfig } from '@/data/stats'
 
+const GITHUB_USER = statsConfig.githubUser
+const USER_API = `https://api.github.com/users/${GITHUB_USER}`
+const REPOS_API = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`
+// Public contributions calendar (no auth needed, CORS enabled).
+const CONTRIB_API = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USER}?y=last`
+
+// --- contribution cache (localStorage) ---
+const CACHE_KEY = `gh-contribs:${GITHUB_USER}`
 const CACHE_TTL = 6 * 60 * 60 * 1000 // 6 hours
 
-function readCache(key) {
+function readCache() {
   try {
-    const raw = localStorage.getItem(key)
+    const raw = localStorage.getItem(CACHE_KEY)
     if (!raw) return null
     const p = JSON.parse(raw)
     if (!Array.isArray(p?.items)) return null
@@ -16,16 +24,15 @@ function readCache(key) {
   }
 }
 
-function writeCache(key, items) {
+function writeCache(items) {
   try {
-    localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), items }))
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), items }))
   } catch {
-    // storage full, ignore, live fetch is primary
+    // storage full — ignore, live fetch is primary
   }
 }
 
 export function useGitHub() {
-  const store = useAppStore()
   const loading = ref(true)
   const error = ref(null)
 
@@ -38,16 +45,8 @@ export function useGitHub() {
   const contributionsTotal = ref(0)
 
   async function fetchContributions() {
-    const githubUser = store.statsConfig.githubUser
-    if (!githubUser) {
-      contributionsLoading.value = false
-      return
-    }
-    const cacheKey = `gh-contribs:${githubUser}`
-    const contribApi = `https://github-contributions-api.jogruber.de/v4/${githubUser}?y=last`
-
     // show cached data immediately if available
-    const cached = readCache(cacheKey)
+    const cached = readCache()
     if (cached) {
       contributions.value = cached
       contributionsTotal.value = cached.reduce((sum, c) => sum + (c.count || 0), 0)
@@ -55,15 +54,15 @@ export function useGitHub() {
     }
 
     try {
-      const res = await fetch(contribApi)
+      const res = await fetch(CONTRIB_API)
       if (!res.ok) throw new Error(`Contributions API: ${res.status}`)
       const d = await res.json()
       const items = d.contributions ?? []
       contributions.value = items
       contributionsTotal.value = items.reduce((sum, c) => sum + (c.count || 0), 0)
-      writeCache(cacheKey, items)
+      writeCache(items)
     } catch {
-      // cached data already set above, keep showing it
+      // cached data already set above — keep showing it
       if (!cached) contributions.value = []
     } finally {
       contributionsLoading.value = false
@@ -71,19 +70,12 @@ export function useGitHub() {
   }
 
   onMounted(async () => {
-    const githubUser = store.statsConfig.githubUser
     fetchContributions()
-
-    if (!githubUser) {
-      loading.value = false
-      return
-    }
-
-    const userApi = `https://api.github.com/users/${githubUser}`
-    const reposApi = `https://api.github.com/users/${githubUser}/repos?per_page=100&sort=updated`
-
     try {
-      const [userRes, reposRes] = await Promise.all([fetch(userApi), fetch(reposApi)])
+      const [userRes, reposRes] = await Promise.all([
+        fetch(USER_API),
+        fetch(REPOS_API),
+      ])
 
       if (!userRes.ok) throw new Error(`GitHub user API: ${userRes.status}`)
       if (!reposRes.ok) throw new Error(`GitHub repos API: ${reposRes.status}`)

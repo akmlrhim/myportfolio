@@ -39,12 +39,13 @@ __screenshots__/
 *.timestamp-*-*.mjs
 
 # Agents
-AGENTS.md
+AGENTS.md 
 .ai/
 .docs/
 .opencode/
 graphify-out/
 .agents/
+.vercel
 .neon
 
 .env

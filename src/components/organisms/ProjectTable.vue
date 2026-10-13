@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { skillById } from '@/data/skills'
+import { projectCategories } from '@/data/projects'
 import { deviconUrl } from '@/utils/devicon'
 import BaseCard from '@/components/atoms/BaseCard.vue'
 import ProjectCard from '@/components/molecules/ProjectCard.vue'
@@ -10,28 +12,25 @@ import StaggerItem from '@/components/motion/StaggerItem.vue'
 const store = useAppStore()
 
 const normalizeKey = (key) => String(key).toLowerCase().replace(/[^a-z0-9]/g, '')
+const skillByNormalizedKey = Object.fromEntries(
+  Object.values(skillById).map((skill) => [normalizeKey(skill.id), skill]),
+)
+
+// Maps a project's category id (e.g. 'web-app') to its i18n labelKey ('web').
+const labelKeyByCategory = Object.fromEntries(
+  projectCategories.map((category) => [category.id, category.labelKey]),
+)
+
+function categoryLabel(categoryId) {
+  const labelKey = labelKeyByCategory[categoryId]
+  return store.t.projectFilter[labelKey] ?? categoryId
+}
 
 const rows = computed(() =>
   store.paginatedProjects.map((project) => {
     const content = project[store.lang] ?? project.en
-
-    // Build skill lookup from store data.
-    const allSkills = store.skillById || {}
-    const skillByNorm = Object.fromEntries(
-      Object.values(allSkills).map((skill) => [normalizeKey(skill.id), skill]),
-    )
-
-    // Project category label lookup.
-    const cats = store.projectCategories || []
-    const labelMap = Object.fromEntries(cats.map((cat) => [cat.id, cat.labelKey]))
-
-    function categoryLabel(categoryId) {
-      const labelKey = labelMap[categoryId]
-      return store.t.projectFilter[labelKey] ?? categoryId
-    }
-
     const stackItems = (project.stack || []).map((entry) => {
-      const skill = allSkills[entry] ?? skillByNorm[normalizeKey(entry)]
+      const skill = skillById[entry] ?? skillByNormalizedKey[normalizeKey(entry)]
       return {
         key: entry,
         name: skill ? skill.name : entry,
