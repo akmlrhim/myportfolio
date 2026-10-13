@@ -2,7 +2,6 @@
 import { useAppStore } from '@/stores/app'
 import PageHeader from '@/components/organisms/PageHeader.vue'
 import BrandCard from '@/components/molecules/BrandCard.vue'
-import { contactChannels } from '@/data/social'
 import StaggerGroup from '@/components/motion/StaggerGroup.vue'
 import StaggerItem from '@/components/motion/StaggerItem.vue'
 
@@ -13,7 +12,7 @@ const store = useAppStore()
   <PageHeader :title="store.t.page.contact" :description="store.t.page.contactDesc">
     <StaggerGroup class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2" :stagger="0.08">
       <StaggerItem
-        v-for="(channel, index) in contactChannels"
+        v-for="(channel, index) in store.contactChannels"
         :key="channel.id"
         :class="{ 'sm:col-span-2': index === 0 }"
       >

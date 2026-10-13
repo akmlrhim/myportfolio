@@ -10,6 +10,7 @@ import ActivityPageSkeleton from './components/skeletons/ActivityPageSkeleton.vu
 import StatsSkeleton from './components/skeletons/StatsSkeleton.vue'
 import ContactSkeleton from './components/skeletons/ContactSkeleton.vue'
 import NotFoundSkeleton from './components/skeletons/NotFoundSkeleton.vue'
+import AdminSkeleton from './components/skeletons/AdminSkeleton.vue'
 import router from './router'
 import { pageview } from '@vercel/analytics'
 import { SpeedInsights } from '@vercel/speed-insights/vue'
@@ -29,6 +30,7 @@ const SKELETONS = {
   activity: ActivityPageSkeleton,
   stats: StatsSkeleton,
   contact: ContactSkeleton,
+  admin: AdminSkeleton,
   NotFound: NotFoundSkeleton,
 }
 

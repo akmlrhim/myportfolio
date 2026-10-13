@@ -1,12 +1,11 @@
 import { ref, onMounted } from 'vue'
-import { statsConfig } from '@/data/stats'
+import { useAppStore } from '@/stores/app'
 import localData from '@/data/wakatime.json'
 
 // All requests hit the same relative path: Vite's dev server proxies it in
 // dev (see vite.config.js), and the Vercel function at api/wakatime/ serves
 // it in production. The WakaTime API key never reaches the browser bundle.
 const API_BASE = '/api/wakatime'
-const SHARE_URL = statsConfig.wakatimeShareUrl
 
 const SUMMARIES_API = `${API_BASE}/summaries?range=last_7_days`
 const ALL_TIME_API = `${API_BASE}/all-time`
@@ -98,18 +97,20 @@ async function loadFromApi() {
   return normalized
 }
 
-async function loadFromShare() {
-  const res = await fetch(SHARE_URL)
+async function loadFromShare(url) {
+  const res = await fetch(url)
   if (!res.ok) throw new Error(`WakaTime share: ${res.status}`)
   return normalize(await res.json())
 }
 
 export function useWakatime() {
+  const store = useAppStore()
   const loading = ref(true)
   const error = ref(null)
   const data = ref(null)
 
   onMounted(async () => {
+    const SHARE_URL = store.statsConfig.wakatimeShareUrl
     try {
       data.value = await loadFromApi()
     } catch (e) {
@@ -117,7 +118,7 @@ export function useWakatime() {
     }
     if (!data.value && SHARE_URL) {
       try {
-        data.value = await loadFromShare()
+        data.value = await loadFromShare(SHARE_URL)
       } catch (e) {
         error.value = e.message
       }

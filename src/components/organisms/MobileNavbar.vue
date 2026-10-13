@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { profile } from '@/data/profile'
 import { navItems } from '@/data/nav'
 import SidebarControls from '@/components/organisms/SidebarControls.vue'
 import NavItem from '@/components/molecules/NavItem.vue'
@@ -27,7 +26,7 @@ const isActive = (path) => {
     class="lg:hidden sticky top-0 z-40 border-b border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur relative"
   >
     <div class="flex items-center gap-3 px-4 py-2.5">
-      <p class="font-semibold text-base truncate">{{ profile.name }}</p>
+      <p class="font-semibold text-base truncate">{{ store.profile.name }}</p>
       <div class="flex-1 min-w-0"></div>
       <div class="shrink-0">
         <SidebarControls />

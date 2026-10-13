@@ -10,6 +10,7 @@ const router = createRouter({
     { path: '/activity', name: 'activity', component: () => import('../views/ActivityView.vue'), meta: { title: 'Activity' } },
     { path: '/stats', name: 'stats', component: () => import('../views/StatsView.vue'), meta: { title: 'Stats' } },
     { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue'), meta: { title: 'Contact' } },
+    { path: '/admin', name: 'admin', component: () => import('../views/AdminView.vue'), meta: { title: 'Admin' } },
     { path: '/:pathMatch(.*)', name: 'NotFound', component: () => import('../views/NotFoundView.vue'), meta: { title: 'Page Not Found' } },
   ],
   scrollBehavior() {
