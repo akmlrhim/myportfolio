@@ -91,6 +91,11 @@ export default {
       desc: 'Lihat proyek open-source dan kontribusi saya.',
       cta: 'Buka GitHub',
     },
+    cv: {
+      title: 'Lihat CV Saya',
+      desc: 'Unduh atau lihat Curriculum Vitae saya secara langsung.',
+      cta: 'Buka CV',
+    },
   },
   stats: {
     github: 'GitHub',

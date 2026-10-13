@@ -28,6 +28,11 @@ const brands = {
     card: 'from-slate-800 via-slate-900 to-neutral-950',
     btn: 'bg-slate-200 text-slate-900 hover:bg-white',
   },
+  cv: {
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 12h8v1.6H8V12zm0 3.6h8v1.6H8v-1.6zM8 8.4h3.2V10H8V8.4z"/></svg>`,
+    card: 'from-emerald-800 via-emerald-600 to-teal-600',
+    btn: 'bg-emerald-50 text-emerald-800 hover:bg-white',
+  },
 }
 
 const brand = computed(() => brands[props.brand])

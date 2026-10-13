@@ -90,6 +90,11 @@ export default {
       desc: 'Explore my open-source projects and contributions.',
       cta: 'Go to GitHub',
     },
+    cv: {
+      title: 'My CV',
+      desc: 'View or download my Curriculum Vitae online.',
+      cta: 'Open CV',
+    },
   },
   stats: {
     github: 'GitHub',
