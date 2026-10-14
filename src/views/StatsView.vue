@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch, onUnmounted } from 'vue'
 import { motion } from 'motion-v'
 import { useAppStore } from '@/stores/app'
 import { useGitHub } from '@/composables/useGitHub'
@@ -10,6 +10,7 @@ import WakaTimeSkeleton from '@/components/organisms/WakaTimeSkeleton.vue'
 import StaggerGroup from '@/components/motion/StaggerGroup.vue'
 import StaggerItem from '@/components/motion/StaggerItem.vue'
 import Skeleton from '@/components/atoms/BaseSkeleton.vue'
+import AnimatedNumber from '@/components/atoms/AnimatedNumber.vue'
 
 const store = useAppStore()
 const gh = useGitHub()
@@ -47,11 +48,23 @@ const endDate = computed(() => {
   return days.length ? days[days.length - 1].date : null
 })
 
-const avgDaily = computed(() => {
+const avgDailySeconds = computed(() => {
   const days = (wtData.value?.daily ?? []).filter((d) => d.seconds > 0)
-  if (!days.length) return '--'
-  return fmtHm(Math.round(totalSeconds.value / days.length))
+  if (!days.length) return null
+  return Math.round(totalSeconds.value / days.length)
 })
+
+const allTimeSeconds = computed(() => {
+  const s = wtData.value?.allTimeSeconds
+  return typeof s === 'number' && s > 0 ? s : null
+})
+
+// Count-up friendly formatter: "24h 16m"
+const fmtSecondsLocale = (seconds) => {
+  const h = Math.floor(seconds / 3600)
+  const m = Math.round((seconds % 3600) / 60)
+  return h > 0 ? `${h.toLocaleString(locale.value)}h ${m}m` : `${m}m`
+}
 
 const bestDay = computed(() => {
   const days = wtData.value?.daily ?? []
@@ -62,14 +75,6 @@ const bestDay = computed(() => {
 const bestDayLabel = computed(() => {
   const b = bestDay.value
   return b ? `${fmtDate(b.date)} (${fmtHm(b.seconds)})` : '--'
-})
-
-const allTimeLabel = computed(() => {
-  const s = wtData.value?.allTimeSeconds
-  if (!s) return '--'
-  const h = Math.floor(s / 3600)
-  const m = Math.round((s % 3600) / 60)
-  return `${h.toLocaleString(locale.value)}h ${m}m`
 })
 
 const dailyBars = computed(() => {
@@ -123,14 +128,21 @@ const contribDailyAvg = computed(() => {
 
 const ghStats = computed(() => {
   const loading = gh.contributionsLoading.value
+  const perDayTxt = ` ${store.t.stats.perDay}`
+  const avg = contribDailyAvg.value
   return [
-    { label: store.t.stats.followers, value: gh.user.value?.followers ?? 0 },
-    { label: store.t.stats.following, value: gh.user.value?.following ?? 0 },
-    { label: store.t.stats.repos, value: gh.user.value?.public_repos ?? 0 },
-    { label: store.t.stats.contributions, value: loading ? '--' : gh.contributionsTotal.value.toLocaleString(locale.value) },
-    { label: store.t.stats.thisWeek, value: loading ? '--' : contribThisWeek.value },
-    { label: store.t.stats.bestDay, value: loading ? '--' : (contribBestDay.value?.count ?? 0) },
-    { label: store.t.stats.dailyAvg, value: loading ? '--' : `${contribDailyAvg.value} ${store.t.stats.perDay}` },
+    { label: store.t.stats.followers, num: gh.user.value?.followers ?? 0 },
+    { label: store.t.stats.following, num: gh.user.value?.following ?? 0 },
+    { label: store.t.stats.repos, num: gh.user.value?.public_repos ?? 0 },
+    { label: store.t.stats.contributions, num: loading ? null : gh.contributionsTotal.value },
+    { label: store.t.stats.thisWeek, num: loading ? null : contribThisWeek.value },
+    { label: store.t.stats.bestDay, num: loading ? null : (contribBestDay.value?.count ?? 0) },
+    {
+      label: store.t.stats.dailyAvg,
+      num: loading || avg === '--' ? null : Number(avg),
+      decimals: 1,
+      suffix: perDayTxt,
+    },
   ]
 })
 
@@ -156,6 +168,37 @@ function ghLangColor(name) {
 }
 
 // --- GitHub contributions heatmap ---
+// Grid baru dirender setelah data siap, jadi observer dipasang manual lewat
+// watcher (useReveal hanya meng-observe pada onMounted).
+const contribGridEl = ref(null)
+const contribGridVisible = ref(false)
+let contribObserver = null
+
+watch(contribGridEl, (target) => {
+  contribObserver?.disconnect()
+  contribObserver = null
+  if (!target) return
+  if (typeof IntersectionObserver === 'undefined') {
+    contribGridVisible.value = true
+    return
+  }
+  contribObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return
+      contribGridVisible.value = true
+      contribObserver?.disconnect()
+      contribObserver = null
+    },
+    { rootMargin: '-40px' },
+  )
+  contribObserver.observe(target)
+})
+
+onUnmounted(() => {
+  contribObserver?.disconnect()
+  contribObserver = null
+})
+
 const contribWeeks = computed(() => {
   const items = gh.contributions.value
   if (!items.length) return []
@@ -219,7 +262,14 @@ const contribColors = computed(() =>
             class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800"
           >
             <p class="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-              {{ s.value }}
+              <AnimatedNumber
+                v-if="s.num !== null"
+                :value="s.num"
+                :decimals="s.decimals ?? 0"
+                :locale="locale"
+                :suffix="s.suffix ?? ''"
+              />
+              <template v-else>--</template>
             </p>
             <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{{ s.label }}</p>
           </StaggerItem>
@@ -235,7 +285,7 @@ const contribColors = computed(() =>
               v-if="!gh.contributionsLoading.value && gh.contributionsTotal.value"
               class="text-xs text-neutral-500 dark:text-neutral-400"
             >
-              {{ store.t.stats.contributionsLastYear.replace('{n}', gh.contributionsTotal.value) }}
+              {{ store.t.stats.contributionsLastYear.split('{n}')[0] }}<AnimatedNumber :value="gh.contributionsTotal.value" />{{ store.t.stats.contributionsLastYear.split('{n}')[1] }}
             </span>
           </div>
 
@@ -252,7 +302,7 @@ const contribColors = computed(() =>
           </div>
 
           <div v-else-if="contribWeeks.length" class="mt-4 overflow-x-auto pb-1">
-            <div class="inline-block">
+            <div ref="contribGridEl" class="contrib-grid inline-block" :class="{ 'is-visible': contribGridVisible }">
               <div class="relative mb-1 h-3 text-[10px] leading-none text-neutral-500 select-none dark:text-neutral-400">
                 <span
                   v-for="m in contribMonths"
@@ -266,8 +316,11 @@ const contribColors = computed(() =>
                   <template v-for="(cell, di) in week" :key="di">
                     <span
                       v-if="cell"
-                      class="h-[10px] w-[10px] rounded-[2px]"
-                      :style="{ backgroundColor: contribColors[cell.level] ?? contribColors[0] }"
+                      class="contrib-cell h-[10px] w-[10px] rounded-[2px]"
+                      :style="{
+                        backgroundColor: contribColors[cell.level] ?? contribColors[0],
+                        '--cell-delay': `${(wi * 7 + di) * 2}ms`,
+                      }"
                       :title="`${cell.count} · ${cell.date}`"
                     />
                     <span v-else class="h-[10px] w-[10px]" />
@@ -295,7 +348,7 @@ const contribColors = computed(() =>
                 <p class="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">{{ r.name }}</p>
                 <span class="flex shrink-0 items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L21.5 9.3l-4.75 4.53 1.15 6.67L12 17.77l-5.9 3.23 1.15-6.67L2.5 9.3l6.6-1.04z"/></svg>
-                  {{ r.stargazers_count }}
+                  <AnimatedNumber :value="r.stargazers_count" :duration="0.9" />
                 </span>
               </div>
               <p class="mt-2 line-clamp-2 text-sm text-neutral-500 dark:text-neutral-400">
@@ -306,7 +359,7 @@ const contribColors = computed(() =>
                   <span class="h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: ghLangColor(r.language) }" />
                   {{ r.language }}
                 </span>
-                <span class="text-xs text-neutral-500 dark:text-neutral-400">★ {{ r.stargazers_count }} · ⑂ {{ r.forks_count }}</span>
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">★ <AnimatedNumber :value="r.stargazers_count" :duration="0.9" /> · ⑂ <AnimatedNumber :value="r.forks_count" :duration="0.9" /></span>
               </div>
             </a>
           </StaggerItem>
@@ -335,11 +388,16 @@ const contribColors = computed(() =>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ store.t.stats.avgDailyTime }}</p>
-            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">{{ avgDaily }}</p>
+            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">
+              <AnimatedNumber v-if="avgDailySeconds !== null" :value="avgDailySeconds" :format="fmtSecondsLocale" />
+              <template v-else>--</template>
+            </p>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ store.t.stats.totalThisWeek }}</p>
-            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">{{ fmtHm(totalSeconds) }}</p>
+            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">
+              <AnimatedNumber :value="totalSeconds" :format="fmtHm" />
+            </p>
           </StaggerItem>
           <StaggerItem class="col-span-2 rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800 lg:col-span-1">
             <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ store.t.stats.bestDay }}</p>
@@ -347,7 +405,10 @@ const contribColors = computed(() =>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-neutral-500 dark:text-neutral-400">{{ store.t.stats.allTimeCoding }}</p>
-            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">{{ allTimeLabel }}</p>
+            <p class="mt-1.5 text-base font-bold text-neutral-900 dark:text-neutral-100">
+              <AnimatedNumber v-if="allTimeSeconds !== null" :value="allTimeSeconds" :format="fmtSecondsLocale" />
+              <template v-else>--</template>
+            </p>
           </StaggerItem>
         </StaggerGroup>
 
@@ -394,7 +455,7 @@ const contribColors = computed(() =>
                   :style="{ backgroundColor: l.color }"
                 />
               </div>
-              <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400">{{ l.percent }}%</span>
+              <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400"><AnimatedNumber :value="l.percent" :decimals="0" suffix="%" :duration="0.8" /></span>
             </div>
           </div>
         </div>
@@ -402,3 +463,25 @@ const contribColors = computed(() =>
     </section>
   </PageHeader>
 </template>
+
+<style scoped>
+.contrib-grid .contrib-cell {
+  opacity: 0;
+}
+.contrib-grid.is-visible .contrib-cell {
+  animation: contrib-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--cell-delay, 0ms);
+}
+@keyframes contrib-pop {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contrib-grid .contrib-cell {
+    opacity: 1;
+  }
+  .contrib-grid.is-visible .contrib-cell {
+    animation: none;
+  }
+}
+</style>
