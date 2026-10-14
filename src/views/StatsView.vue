@@ -282,29 +282,6 @@ const contribColors = computed(() =>
           </div>
         </div>
 
-        <!-- GitHub top languages -->
-        <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-            {{ store.t.stats.topLanguages }}
-          </h3>
-          <div class="mt-4 space-y-3">
-            <div v-for="l in gh.topLanguages.value" :key="l.name" class="flex items-center gap-3">
-              <span class="w-28 shrink-0 truncate text-sm text-neutral-700 dark:text-neutral-300">{{ l.name }}</span>
-              <div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                <motion.div
-                  class="h-full rounded-full"
-                  :initial="{ width: 0 }"
-                  :whileInView="{ width: `${l.percent}%` }"
-                  :viewport="{ once: true }"
-                  :transition="{ duration: 0.8, ease: 'easeOut' }"
-                  :style="{ backgroundColor: ghLangColor(l.name) }"
-                />
-              </div>
-              <span class="w-10 shrink-0 text-right text-xs text-neutral-500 dark:text-neutral-400">{{ l.percent }}%</span>
-            </div>
-          </div>
-        </div>
-
         <!-- GitHub top repos -->
         <StaggerGroup v-if="gh.topRepos.value.length" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <StaggerItem v-for="r in gh.topRepos.value" :key="r.id">

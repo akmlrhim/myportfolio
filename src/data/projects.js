@@ -2,7 +2,6 @@ export const projectCategories = [
   { id: 'all', labelKey: 'all' },
   { id: 'web-app', labelKey: 'web' },
   { id: 'company-profile', labelKey: 'company' },
-  { id: 'internal', labelKey: 'internal' },
   { id: 'experiment', labelKey: 'experiment' },
 ]
 
@@ -98,46 +97,5 @@ export const projects = [
     links: { live: 'https://villatebingbuluh.com', repo: null },
     en: { title: 'Villa Tebing Buluh' },
     id: { title: 'Villa Tebing Buluh' },
-  },
-
-  {
-    slug: 'hris-im',
-    category: 'web-app',
-    image: '/images/projects/hris-im.webp',
-    imageSize: { width: 1280, height: 616 },
-    stack: ['livewire', 'laravel', 'mysql', 'tailwindcss'],
-    links: { live: 'https://hris.impostmedia.com', repo: null },
-    en: { title: 'HRIS Impost Media' },
-    id: { title: 'HRIS Impost Media' },
-  },
-
-  {
-    slug: 'wspace-im',
-    category: 'web-app',
-    image: '/images/projects/wspace-im.webp',
-    imageSize: { width: 1280, height: 610 },
-    stack: [
-      'livewire',
-      'inertiajs',
-      'laravel',
-      'mysql',
-      'tailwindcss',
-      'fluxui',
-      'typescript',
-    ],
-    links: { live: 'https://workspace.impostmedia.com', repo: null },
-    en: { title: 'Workspace Impost Media' },
-    id: { title: 'Workspace Impost Media' },
-  },
-
-  {
-    slug: 'ops-im',
-    category: 'web-app',
-    image: '/images/projects/ops-im.webp',
-    imageSize: { width: 1280, height: 590 },
-    stack: ['inertiajs', 'laravel', 'mysql', 'tailwindcss', 'shadcn/ui', 'typescript'],
-    links: { live: 'https://ops.impostmedia.com', repo: null },
-    en: { title: 'Operation Impost Media' },
-    id: { title: 'Operation Impost Media' },
   },
 ]

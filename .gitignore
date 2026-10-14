@@ -44,9 +44,6 @@ AGENTS.md
 .docs/
 .opencode/
 graphify-out/
-.agents/
-.vercel
-.neon
 
 .env
 .env.*

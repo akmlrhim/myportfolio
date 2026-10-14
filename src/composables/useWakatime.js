@@ -71,13 +71,15 @@ function aggregateDays(days) {
 
 // Accepts { data: [...] } (live summaries), { data: { days: [...] } } /
 // plain dashboard JSON (share embeds / local export).
+// NOTE: cumulative_total here belongs to the requested range (7 days),
+// never use it as "all time".
 function normalize(raw) {
   const body = raw?.data ?? raw
   const days = Array.isArray(body) ? body : body?.days
   if (!Array.isArray(days) || !days.length) return null
   return {
     ...aggregateDays(days),
-    allTimeSeconds: raw?.cumulative_total?.seconds ?? body?.cumulative_total?.seconds ?? null,
+    allTimeSeconds: null,
   }
 }
 
@@ -93,7 +95,8 @@ async function loadFromApi() {
 
   if (allTimeRes?.ok) {
     const allTime = await allTimeRes.json()
-    normalized.allTimeSeconds = allTime?.data?.total_seconds ?? normalized.allTimeSeconds
+    const secs = allTime?.data?.total_seconds
+    if (typeof secs === 'number') normalized.allTimeSeconds = Math.round(secs)
   }
   return normalized
 }
