@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, onUnmounted } from 'vue'
+import { computed } from 'vue'
 import { motion } from 'motion-v'
 import { useAppStore } from '@/stores/app'
 import { useGitHub } from '@/composables/useGitHub'
@@ -7,6 +7,7 @@ import { useWakatime } from '@/composables/useWakatime'
 import PageHeader from '@/components/organisms/PageHeader.vue'
 import GitHubSkeleton from '@/components/organisms/GitHubSkeleton.vue'
 import WakaTimeSkeleton from '@/components/organisms/WakaTimeSkeleton.vue'
+import ContributionSkyline from '@/components/organisms/ContributionSkyline.vue'
 import StaggerGroup from '@/components/motion/StaggerGroup.vue'
 import StaggerItem from '@/components/motion/StaggerItem.vue'
 import Skeleton from '@/components/atoms/BaseSkeleton.vue'
@@ -102,49 +103,8 @@ const wtLanguages = computed(() => {
 // --- GitHub ---
 const ghContribItems = computed(() => gh.contributions.value ?? [])
 
-const contribThisWeek = computed(() => {
-  const items = ghContribItems.value
-  if (!items.length) return 0
-  const last = new Date(`${items[items.length - 1].date}T00:00:00`)
-  const start = new Date(last)
-  start.setDate(start.getDate() - 6)
-  return items
-    .filter((c) => new Date(`${c.date}T00:00:00`) >= start)
-    .reduce((s, c) => s + (c.count || 0), 0)
-})
-
-const contribBestDay = computed(() => {
-  const items = ghContribItems.value
-  if (!items.length) return null
-  return items.reduce((a, c) => (c.count > a.count ? c : a), items[0])
-})
-
-const contribDailyAvg = computed(() => {
-  const items = ghContribItems.value
-  if (!items.length) return '--'
-  const activeDays = items.filter((c) => c.count > 0).length || 1
-  return (gh.contributionsTotal.value / activeDays).toFixed(1)
-})
-
-const ghStats = computed(() => {
-  const loading = gh.contributionsLoading.value
-  const perDayTxt = ` ${store.t.stats.perDay}`
-  const avg = contribDailyAvg.value
-  return [
-    { label: store.t.stats.followers, num: gh.user.value?.followers ?? 0 },
-    { label: store.t.stats.following, num: gh.user.value?.following ?? 0 },
-    { label: store.t.stats.repos, num: gh.user.value?.public_repos ?? 0 },
-    { label: store.t.stats.contributions, num: loading ? null : gh.contributionsTotal.value },
-    { label: store.t.stats.thisWeek, num: loading ? null : contribThisWeek.value },
-    { label: store.t.stats.bestDay, num: loading ? null : (contribBestDay.value?.count ?? 0) },
-    {
-      label: store.t.stats.dailyAvg,
-      num: loading || avg === '--' ? null : Number(avg),
-      decimals: 1,
-      suffix: perDayTxt,
-    },
-  ]
-})
+// --- GitHub contributions skyline (2D heat map that folds into a 3D skyline) ---
+const skylineLabels = computed(() => store.t.skyline)
 
 function ghLangColor(name) {
   const colors = {
@@ -166,78 +126,6 @@ function ghLangColor(name) {
   }
   return colors[name] || '#2563eb'
 }
-
-// --- GitHub contributions heatmap ---
-// Grid baru dirender setelah data siap, jadi observer dipasang manual lewat
-// watcher (useReveal hanya meng-observe pada onMounted).
-const contribGridEl = ref(null)
-const contribGridVisible = ref(false)
-let contribObserver = null
-
-watch(contribGridEl, (target) => {
-  contribObserver?.disconnect()
-  contribObserver = null
-  if (!target) return
-  if (typeof IntersectionObserver === 'undefined') {
-    contribGridVisible.value = true
-    return
-  }
-  contribObserver = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry.isIntersecting) return
-      contribGridVisible.value = true
-      contribObserver?.disconnect()
-      contribObserver = null
-    },
-    { rootMargin: '-40px' },
-  )
-  contribObserver.observe(target)
-})
-
-onUnmounted(() => {
-  contribObserver?.disconnect()
-  contribObserver = null
-})
-
-const contribWeeks = computed(() => {
-  const items = gh.contributions.value
-  if (!items.length) return []
-  const weeks = []
-  let week = Array.from({ length: 7 }, () => null)
-  let started = false
-  for (const c of items) {
-    const dow = new Date(`${c.date}T00:00:00`).getDay()
-    if (dow === 0 && started) {
-      weeks.push(week)
-      week = Array.from({ length: 7 }, () => null)
-    }
-    week[dow] = c
-    started = true
-  }
-  if (week.some(Boolean)) weeks.push(week)
-  return weeks
-})
-
-const contribMonths = computed(() => {
-  const months = []
-  let lastMonth = -1
-  contribWeeks.value.forEach((week, wi) => {
-    const first = week.find(Boolean)
-    if (!first) return
-    const d = new Date(`${first.date}T00:00:00`)
-    if (d.getMonth() !== lastMonth) {
-      months.push({ label: d.toLocaleDateString(locale.value, { month: 'short' }), weekIndex: wi })
-      lastMonth = d.getMonth()
-    }
-  })
-  return months
-})
-
-const contribColors = computed(() =>
-  store.dark
-    ? ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
-    : ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-)
 </script>
 
 <template>
@@ -255,41 +143,12 @@ const contribColors = computed(() =>
       </div>
 
       <template v-else>
-        <StaggerGroup class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StaggerItem
-            v-for="s in ghStats"
-            :key="s.label"
-            class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800"
-          >
-            <p class="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-              <AnimatedNumber
-                v-if="s.num !== null"
-                :value="s.num"
-                :decimals="s.decimals ?? 0"
-                :locale="locale"
-                :suffix="s.suffix ?? ''"
-              />
-              <template v-else>--</template>
-            </p>
-            <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{{ s.label }}</p>
-          </StaggerItem>
-        </StaggerGroup>
-
-        <!-- Contribution graph -->
-        <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-              {{ store.t.stats.contributionGraph }}
-            </h3>
-            <span
-              v-if="!gh.contributionsLoading.value && gh.contributionsTotal.value"
-              class="text-xs text-neutral-500 dark:text-neutral-400"
-            >
-              {{ store.t.stats.contributionsLastYear.split('{n}')[0] }}<AnimatedNumber :value="gh.contributionsTotal.value" />{{ store.t.stats.contributionsLastYear.split('{n}')[1] }}
-            </span>
-          </div>
-
-          <div v-if="gh.contributionsLoading.value" class="mt-4 flex gap-[3px]">
+        <!-- Contribution skyline -->
+        <div v-if="gh.contributionsLoading.value" class="mt-4 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            {{ store.t.stats.contributionGraph }}
+          </h3>
+          <div class="mt-4 flex gap-[3px]">
             <div v-for="week in 40" :key="week" class="flex flex-col gap-[3px]">
               <Skeleton
                 v-for="day in 7"
@@ -300,39 +159,21 @@ const contribColors = computed(() =>
               />
             </div>
           </div>
+        </div>
 
-          <div v-else-if="contribWeeks.length" class="mt-4 overflow-x-auto pb-1">
-            <div ref="contribGridEl" class="contrib-grid inline-block" :class="{ 'is-visible': contribGridVisible }">
-              <div class="relative mb-1 h-3 text-[10px] leading-none text-neutral-500 select-none dark:text-neutral-400">
-                <span
-                  v-for="m in contribMonths"
-                  :key="m.weekIndex"
-                  class="absolute top-0 whitespace-nowrap"
-                  :style="{ left: `${m.weekIndex * 13}px` }"
-                >{{ m.label }}</span>
-              </div>
-              <div class="flex gap-[3px]">
-                <div v-for="(week, wi) in contribWeeks" :key="wi" class="flex flex-col gap-[3px]">
-                  <template v-for="(cell, di) in week" :key="di">
-                    <span
-                      v-if="cell"
-                      class="contrib-cell h-[10px] w-[10px] rounded-[2px]"
-                      :style="{
-                        backgroundColor: contribColors[cell.level] ?? contribColors[0],
-                        '--cell-delay': `${(wi * 7 + di) * 2}ms`,
-                      }"
-                      :title="`${cell.count} · ${cell.date}`"
-                    />
-                    <span v-else class="h-[10px] w-[10px]" />
-                  </template>
-                </div>
-              </div>
-            </div>
-          </div>
+        <ContributionSkyline
+          v-else-if="ghContribItems.length"
+          class="mt-4"
+          :data="ghContribItems"
+          :locale="locale"
+          :labels="skylineLabels"
+        />
 
-          <div v-else class="mt-4 rounded-xl border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
-            {{ store.t.stats.contributionsUnavailable }}
-          </div>
+        <div
+          v-else
+          class="mt-4 rounded-2xl border border-dashed border-neutral-300 p-8 text-center text-sm text-neutral-500 dark:border-neutral-700 dark:text-neutral-400"
+        >
+          {{ store.t.stats.contributionsUnavailable }}
         </div>
 
         <!-- GitHub top repos -->
@@ -463,25 +304,3 @@ const contribColors = computed(() =>
     </section>
   </PageHeader>
 </template>
-
-<style scoped>
-.contrib-grid .contrib-cell {
-  opacity: 0;
-}
-.contrib-grid.is-visible .contrib-cell {
-  animation: contrib-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--cell-delay, 0ms);
-}
-@keyframes contrib-pop {
-  from { opacity: 0; transform: scale(0.3); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .contrib-grid .contrib-cell {
-    opacity: 1;
-  }
-  .contrib-grid.is-visible .contrib-cell {
-    animation: none;
-  }
-}
-</style>

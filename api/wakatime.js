@@ -40,6 +40,11 @@ export default async function handler(req, res) {
   }
 
   const { __endpoint, ...forwarded } = req.query
+  // Never forward auth-looking params upstream: WakaTime accepts an
+  // `api_key` query override, and we only ever authenticate via header.
+  for (const k of Object.keys(forwarded)) {
+    if (/^api_?key$|token|authorization|secret/i.test(k)) delete forwarded[k]
+  }
   const qs = new URLSearchParams(forwarded).toString()
 
   try {

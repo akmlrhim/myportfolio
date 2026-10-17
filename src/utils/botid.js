@@ -7,5 +7,8 @@ const PROTECTED_ROUTES = [
 
 export function initBotProtection() {
   if (typeof window === 'undefined') return
+  // The challenge script only exists behind Vercel's rewrites (see vercel.json).
+  // In dev there is no such route, so loading it only produces a 404.
+  if (import.meta.env.DEV) return
   initBotId({ protect: PROTECTED_ROUTES })
 }
