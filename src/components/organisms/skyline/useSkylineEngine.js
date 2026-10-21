@@ -24,6 +24,33 @@ import {
 } from '@/utils/contributionSkyline'
 
 /**
+ * Month labels for narrow screens: greedy skip-drawing bunches the kept labels
+ * at irregular gaps, which reads as messy on mobile. Pick one stride instead,
+ * the smallest that fits every kept label without overlap, so the shown months
+ * sit at even intervals. A lone overflowing tail label (the last month) is
+ * dropped rather than widening the stride.
+ */
+function strideMonths(items, gap, maxRight) {
+  if (items.length < 2) return items
+  for (let step = 1; step < items.length; step++) {
+    const kept = []
+    let ok = true
+    for (let k = 0; k < items.length; k += step) {
+      const it = items[k]
+      if (k === items.length - 1 && it.x + it.w > maxRight) break
+      const prev = kept[kept.length - 1]
+      if (it.x + it.w > maxRight || (prev && it.x < prev.x + prev.w + gap)) {
+        ok = false
+        break
+      }
+      kept.push(it)
+    }
+    if (ok) return kept
+  }
+  return [items[0]]
+}
+
+/**
  * Canvas engine for ContributionSkyline: one requestAnimationFrame loop that
  * renders the 2D heat map and the 3D skyline as two camera positions of a
  * single scene, plus pointer/keyboard interaction, observers and theming.
@@ -370,14 +397,13 @@ export function useSkylineEngine({ props, model, view, legendLevel, active, them
           'rgba(' + Math.round(muted[0]) + ',' + Math.round(muted[1]) + ',' + Math.round(muted[2]) + ',' + a2.toFixed(3) + ')'
         ctx.textAlign = 'left'
         ctx.textBaseline = 'bottom'
-        let edge = -Infinity
-        for (const m of months) {
-          const x = px(m.week + off, -0.3)
-          const tw = ctx.measureText(m.label).width
-          if (x < edge || x + tw > W) continue
-          ctx.fillText(m.label, x, py(m.week + off, -0.3, 0) - 3)
-          edge = x + tw + 6
-        }
+        const items = months.map((m) => ({
+          x: px(m.week + off, -0.3),
+          y: py(m.week + off, -0.3, 0) - 3,
+          w: ctx.measureText(m.label).width,
+          label: m.label,
+        }))
+        for (const it of strideMonths(items, 6, W)) ctx.fillText(it.label, it.x, it.y)
         ctx.textAlign = 'right'
         ctx.textBaseline = 'middle'
         if (gutter > 0) for (const r of weekdayRows) ctx.fillText(r.label, px(0, r.day + 0.5) - 6, py(0, r.day + 0.5, 0))
@@ -387,13 +413,13 @@ export function useSkylineEngine({ props, model, view, legendLevel, active, them
           'rgba(' + Math.round(muted[0]) + ',' + Math.round(muted[1]) + ',' + Math.round(muted[2]) + ',' + a3.toFixed(3) + ')'
         ctx.textAlign = 'left'
         ctx.textBaseline = 'top'
-        let edge = -Infinity
-        for (const m of months) {
-          const x = px(m.week + 0.5, 7.3)
-          if (x < edge || x + ctx.measureText(m.label).width > W) continue
-          ctx.fillText(m.label, x, py(m.week + 0.5, 7.3, 0) + 2)
-          edge = x + ctx.measureText(m.label).width + 10
-        }
+        const items = months.map((m) => ({
+          x: px(m.week + 0.5, 7.3),
+          y: py(m.week + 0.5, 7.3, 0) + 2,
+          w: ctx.measureText(m.label).width,
+          label: m.label,
+        }))
+        for (const it of strideMonths(items, 10, W)) ctx.fillText(it.label, it.x, it.y)
       }
 
       // Tooltip rides the active cell through morphs and orbits.
