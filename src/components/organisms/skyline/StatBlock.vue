@@ -14,7 +14,7 @@ defineProps({
     <div class="text-[12px] leading-tight text-black sm:text-[13px] dark:text-white">{{ label }}</div>
     <div class="mt-1 flex flex-wrap items-baseline gap-x-1.5" :class="align === 'end' ? 'justify-end' : ''">
       <span
-        class="font-semibold tabular-nums transition-colors duration-500 motion-reduce:transition-none"
+        class="font-bebas transition-colors duration-500 motion-reduce:transition-none"
         :style="{ fontSize: size + 'px', lineHeight: 1, letterSpacing: '-0.02em' }"
       >
         {{ value }}
