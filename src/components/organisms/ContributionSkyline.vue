@@ -165,7 +165,7 @@ watch([active, model], async ([a]) => {
           :style="{ transitionTimingFunction: ease }"
           @click="setView(v)"
         >
-          <span :class="view === v ? 'text-white dark:text-white' : 'text-black dark:text-white'">
+          <span :class="view === v ? 'text-white dark:text-black' : 'text-black dark:text-white'">
             <GridIcon v-if="v === '2d'" />
             <CubeIcon v-else />
           </span>
