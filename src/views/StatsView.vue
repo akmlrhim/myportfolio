@@ -26,6 +26,13 @@ function fmtHm(seconds) {
   return h > 0 ? `${h}h ${m}m` : `${m}m`
 }
 
+// {h, m} parts for the summary cards, where the unit letters render smaller than the digits
+function splitHm(seconds) {
+  const h = Math.floor(seconds / 3600)
+  const m = Math.round((seconds % 3600) / 60)
+  return { h, m }
+}
+
 function fmtDayLabel(dateStr) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString(locale.value, { weekday: 'short' })
 }
@@ -45,12 +52,9 @@ const allTimeSeconds = computed(() => {
   return typeof s === 'number' && s > 0 ? s : null
 })
 
-// Count-up friendly formatter: "24h 16m"
-const fmtSecondsLocale = (seconds) => {
-  const h = Math.floor(seconds / 3600)
-  const m = Math.round((seconds % 3600) / 60)
-  return h > 0 ? `${h.toLocaleString(locale.value)}h ${m}m` : `${m}m`
-}
+const avgHm = computed(() => (avgDailySeconds.value !== null ? splitHm(avgDailySeconds.value) : null))
+const weekHm = computed(() => splitHm(totalSeconds.value))
+const allTimeHm = computed(() => (allTimeSeconds.value !== null ? splitHm(allTimeSeconds.value) : null))
 
 const dailyBars = computed(() => {
   const days = wtData.value?.daily ?? []
@@ -202,20 +206,36 @@ function ghLangColor(name) {
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.avgDailyTime }}</p>
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
-              <AnimatedNumber v-if="avgDailySeconds !== null" :value="avgDailySeconds" :format="fmtSecondsLocale" />
+              <template v-if="avgHm">
+                <template v-if="avgHm.h > 0">
+                  <AnimatedNumber :value="avgHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                  {{ ' ' }}
+                </template>
+                <AnimatedNumber :value="avgHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
+              </template>
               <template v-else>--</template>
             </p>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.totalThisWeek }}</p>
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
-              <AnimatedNumber :value="totalSeconds" :format="fmtHm" />
+              <template v-if="weekHm.h > 0">
+                <AnimatedNumber :value="weekHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                {{ ' ' }}
+              </template>
+              <AnimatedNumber :value="weekHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
             </p>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.allTimeCoding }}</p>
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
-              <AnimatedNumber v-if="allTimeSeconds !== null" :value="allTimeSeconds" :format="fmtSecondsLocale" />
+              <template v-if="allTimeHm">
+                <template v-if="allTimeHm.h > 0">
+                  <AnimatedNumber :value="allTimeHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                  {{ ' ' }}
+                </template>
+                <AnimatedNumber :value="allTimeHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
+              </template>
               <template v-else>--</template>
             </p>
           </StaggerItem>
