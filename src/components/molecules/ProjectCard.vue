@@ -74,7 +74,7 @@ const stackLabel = computed(() => props.stack.map((s) => s.name).join(', '))
           aria-hidden="true"
           class="flex aspect-[16/10] w-full items-center justify-center bg-gradient-to-br from-neutral-100 via-neutral-50 to-neutral-200 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-950"
         >
-          <span class="text-3xl font-semibold tracking-wide text-neutral-300 dark:text-neutral-600">
+          <span class="text-3xl font-semibold tracking-wide text-black dark:text-white">
             {{ initials }}
           </span>
         </div>
@@ -92,14 +92,14 @@ const stackLabel = computed(() => props.stack.map((s) => s.name).join(', '))
         <div class="flex items-start justify-between gap-3">
           <span
             v-if="category"
-            class="text-sm font-medium text-neutral-400 dark:text-neutral-500"
+            class="text-sm font-medium text-black dark:text-white"
           >
             {{ category }}
           </span>
           <span
             v-if="hasLink"
             aria-hidden="true"
-            class="text-neutral-300 transition-colors duration-200 group-hover:text-accent dark:text-neutral-600"
+            class="text-black transition-colors duration-200 dark:text-white"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 17 17 7" /><path d="M7 7h10v10" />
@@ -108,7 +108,7 @@ const stackLabel = computed(() => props.stack.map((s) => s.name).join(', '))
         </div>
 
         <!-- Title -->
-        <h3 class="mt-3 text-base font-semibold leading-snug text-neutral-900 dark:text-neutral-100">
+        <h3 class="mt-3 text-base font-semibold leading-snug text-black dark:text-white">
           {{ content.title }}
         </h3>
 
@@ -129,13 +129,13 @@ const stackLabel = computed(() => props.stack.map((s) => s.name).join(', '))
                 loading="lazy"
                 decoding="async"
               />
-              <span v-else class="text-[10px] font-bold text-neutral-500 dark:text-neutral-400">
+              <span v-else class="text-[10px] font-bold text-black dark:text-white">
                 {{ item.name.charAt(0) }}
               </span>
             </span>
             <span
               v-if="overflow"
-              class="flex h-7 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 px-2 text-[11px] font-medium text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400"
+              class="flex h-7 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 px-2 text-[11px] font-medium text-black dark:border-neutral-800 dark:bg-neutral-900 dark:text-white"
             >
               +{{ overflow }}
             </span>

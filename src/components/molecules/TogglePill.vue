@@ -21,13 +21,13 @@ defineProps({
   >
     <span
       class="flex h-full items-center gap-1 px-3 transition-colors"
-      :class="!modelValue ? 'bg-blue-600 text-white' : 'text-neutral-500 dark:text-neutral-400'">
+      :class="!modelValue ? 'bg-blue-600 text-white' : 'text-black dark:text-white'">
       <span v-if="leftIcon" v-html="leftIcon"></span>
       {{ leftLabel }}
     </span>
     <span
       class="flex h-full items-center gap-1 px-3 transition-colors"
-      :class="modelValue ? 'bg-blue-600 text-white' : 'text-neutral-500 dark:text-neutral-400'">
+      :class="modelValue ? 'bg-blue-600 text-white' : 'text-black dark:text-white'">
       <span v-if="rightIcon" v-html="rightIcon"></span>
       {{ rightLabel }}
     </span>

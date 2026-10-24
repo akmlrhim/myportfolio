@@ -35,7 +35,7 @@ const isActive = (path) => {
 
       <!-- Hamburger -->
       <button
-        class="flex items-center justify-center w-9 h-9 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        class="flex items-center justify-center w-9 h-9 rounded-lg text-black dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         :aria-expanded="open"
         aria-controls="mobile-nav"
         :aria-label="open ? store.t.sidebar.openMenu : store.t.sidebar.closeMenu"

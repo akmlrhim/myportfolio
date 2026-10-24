@@ -74,7 +74,7 @@ const rows = computed(() =>
   </StaggerGroup>
 
   <BaseCard v-else dashed>
-    <p class="text-sm font-medium text-neutral-500">{{ store.t.projects.empty }}</p>
-    <p class="mt-1 text-xs text-neutral-500">{{ store.t.projects.emptyDesc }}</p>
+    <p class="text-sm font-medium text-black">{{ store.t.projects.empty }}</p>
+    <p class="mt-1 text-xs text-black">{{ store.t.projects.emptyDesc }}</p>
   </BaseCard>
 </template>

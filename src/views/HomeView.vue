@@ -11,13 +11,13 @@ const store = useAppStore()
 <template>
   <HeroSection>
     <Reveal :delay="0.1">
-      <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+      <p class="text-black dark:text-white leading-relaxed max-w-2xl">
         {{ store.t.hero.summary }}
       </p>
     </Reveal>
 
     <Reveal :delay="0.2">
-      <h2 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-8 mb-4">
+      <h2 class="text-xl font-semibold text-black dark:text-white mt-8 mb-4">
         {{ store.t.hero.skills }}
       </h2>
       <SkillFilters />

@@ -388,13 +388,12 @@ export function useSkylineEngine({ props, model, view, legendLevel, active, them
       }
 
       // Labels: along the top and left in 2D, along the front edge in 3D. They fade, never pop.
-      const muted = mixRGB(bg, fg, 0.55)
       ctx.font = font
       const a2 = 1 - smoothstep(0, 0.4, e)
       const a3 = smoothstep(0.62, 1, e)
       if (a2 > 0.004) {
         ctx.fillStyle =
-          'rgba(' + Math.round(muted[0]) + ',' + Math.round(muted[1]) + ',' + Math.round(muted[2]) + ',' + a2.toFixed(3) + ')'
+          'rgba(' + Math.round(fg[0]) + ',' + Math.round(fg[1]) + ',' + Math.round(fg[2]) + ',' + a2.toFixed(3) + ')'
         ctx.textAlign = 'left'
         ctx.textBaseline = 'bottom'
         const items = months.map((m) => ({
@@ -410,7 +409,7 @@ export function useSkylineEngine({ props, model, view, legendLevel, active, them
       }
       if (a3 > 0.004) {
         ctx.fillStyle =
-          'rgba(' + Math.round(muted[0]) + ',' + Math.round(muted[1]) + ',' + Math.round(muted[2]) + ',' + a3.toFixed(3) + ')'
+          'rgba(' + Math.round(fg[0]) + ',' + Math.round(fg[1]) + ',' + Math.round(fg[2]) + ',' + a3.toFixed(3) + ')'
         ctx.textAlign = 'left'
         ctx.textBaseline = 'top'
         const items = months.map((m) => ({

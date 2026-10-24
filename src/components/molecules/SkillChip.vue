@@ -20,7 +20,7 @@ function handleImgError(e) {
 
 <template>
   <div
-    class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-neutral-700 dark:text-neutral-300 transition-colors"
+    class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 text-sm font-medium text-black dark:text-white transition-colors"
   >
     <span class="relative w-5 h-5 flex-shrink-0">
       <img
@@ -31,7 +31,7 @@ function handleImgError(e) {
         @error="handleImgError"
       />
       <span
-        class="hidden w-5 h-5 rounded bg-neutral-200 dark:bg-neutral-700 items-center justify-center text-[10px] font-bold text-neutral-700 dark:text-neutral-200"
+        class="hidden w-5 h-5 rounded bg-neutral-200 dark:bg-neutral-700 items-center justify-center text-[10px] font-bold text-black dark:text-white"
       >
         {{ name.charAt(0) }}
       </span>

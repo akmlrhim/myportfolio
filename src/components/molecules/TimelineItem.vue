@@ -35,20 +35,20 @@ function handleLogoError() {
       class="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full border-2 border-blue-500 bg-white dark:bg-neutral-950 -translate-x-1/2"
     ></span>
     <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
-      <h3 class="font-semibold text-neutral-900 dark:text-neutral-100">{{ title }}</h3>
+      <h3 class="font-semibold text-black dark:text-white">{{ title }}</h3>
       <span
         v-if="period"
-        class="text-xs font-medium text-neutral-500 dark:text-neutral-400 whitespace-nowrap"
+        class="text-xs font-medium text-black dark:text-white whitespace-nowrap"
       >
         {{ period }}
       </span>
     </div>
-    <p v-if="subtitle" class="mt-0.5 text-sm text-blue-600 dark:text-blue-400">{{ subtitle }}</p>
+    <p v-if="subtitle" class="mt-0.5 text-sm text-black dark:text-white">{{ subtitle }}</p>
     <ul v-if="points.length" class="mt-2.5 space-y-1.5">
       <li
         v-for="(point, i) in points"
         :key="i"
-        class="flex gap-2 text-sm text-neutral-600 dark:text-neutral-400"
+        class="flex gap-2 text-sm text-black dark:text-white"
       >
         <span class="mt-[7px] w-1 h-1 rounded-full bg-neutral-400 dark:bg-neutral-500 flex-shrink-0"></span>
         <span>{{ point }}</span>

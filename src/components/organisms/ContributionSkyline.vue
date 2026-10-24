@@ -137,7 +137,7 @@ watch([active, model], async ([a]) => {
     class="relative w-full rounded-2xl border border-neutral-200 p-3 font-sans sm:p-5 dark:border-neutral-800"
   >
     <header class="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-      <h3 class="m-0 text-[15px] font-normal leading-snug text-neutral-900 dark:text-neutral-100">
+      <h3 class="m-0 text-[15px] font-normal leading-snug text-black dark:text-white">
         <slot name="title">
           <span class="font-semibold tabular-nums">{{ titleNum }}</span>
           {{ titleRest }}
@@ -165,7 +165,7 @@ watch([active, model], async ([a]) => {
           :style="{ transitionTimingFunction: ease }"
           @click="setView(v)"
         >
-          <span :class="view === v ? 'text-white dark:text-neutral-900' : 'text-neutral-400 dark:text-neutral-500'">
+          <span :class="view === v ? 'text-white dark:text-white' : 'text-black dark:text-white'">
             <GridIcon v-if="v === '2d'" />
             <CubeIcon v-else />
           </span>
@@ -205,7 +205,6 @@ watch([active, model], async ([a]) => {
                 v-for="b in statBlocks.slice(0, 2)"
                 :key="b.label"
                 v-bind="b"
-                :accent="theme.accent"
                 :size="bigSize"
                 align="end"
               />
@@ -225,7 +224,6 @@ watch([active, model], async ([a]) => {
                 v-for="b in statBlocks.slice(2, 4)"
                 :key="b.label"
                 v-bind="b"
-                :accent="theme.accent"
                 :size="bigSize"
                 align="start"
               />
@@ -237,7 +235,7 @@ watch([active, model], async ([a]) => {
           ref="tipRef"
           role="tooltip"
           :aria-hidden="active < 0"
-          class="pointer-events-none absolute top-3 left-3 z-20 whitespace-nowrap rounded-md bg-neutral-900 px-2.5 py-1.5 text-[12px] leading-none text-white shadow-lg transition-opacity duration-150 sm:top-4 sm:left-4 motion-reduce:transition-none dark:bg-neutral-100 dark:text-neutral-900"
+          class="pointer-events-none absolute top-3 left-3 z-20 whitespace-nowrap rounded-md bg-neutral-900 px-2.5 py-1.5 text-[12px] leading-none text-white shadow-lg transition-opacity duration-150 sm:top-4 sm:left-4 motion-reduce:transition-none dark:bg-neutral-100 dark:text-black"
           :style="{ opacity: active >= 0 ? 1 : 0 }"
         >
           <template v-if="active >= 0 && model.cells[active]">
@@ -248,7 +246,7 @@ watch([active, model], async ([a]) => {
                   : L.none.replace('{unit}', plural)
               }}
             </strong>
-            <span class="opacity-75"> {{ dfy.format(dayMs(model.cells[active].date)) }}</span>
+            <span> {{ dfy.format(dayMs(model.cells[active].date)) }}</span>
           </template>
           <template v-else>&nbsp;</template>
           <span
@@ -272,13 +270,13 @@ watch([active, model], async ([a]) => {
       >
         <div class="min-h-0 overflow-hidden">
           <div class="grid grid-cols-2 gap-x-3 gap-y-3 px-3 pt-4 pb-1 sm:gap-x-4 sm:px-4 md:grid-cols-4">
-            <StatBlock v-for="b in statBlocks" :key="b.label" v-bind="b" :accent="theme.accent" :size="28" />
+            <StatBlock v-for="b in statBlocks" :key="b.label" v-bind="b" :size="28" />
           </div>
         </div>
       </div>
 
       <div
-        class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 pt-3 pb-3 text-[11px] text-neutral-500 sm:px-4 sm:text-[12px] dark:text-neutral-400"
+        class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-3 pt-3 pb-3 text-[11px] text-black sm:px-4 sm:text-[12px] dark:text-white"
       >
         <span class="relative grid min-w-0 w-full flex-1 grid-cols-1">
           <span

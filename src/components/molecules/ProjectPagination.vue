@@ -48,7 +48,7 @@ function go(page) {
     class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-between"
     :aria-label="pageInfo"
   >
-    <p class="text-sm font-medium text-neutral-400 dark:text-neutral-500">
+    <p class="text-sm font-medium text-black dark:text-white">
       {{ pageInfo }}
     </p>
 
@@ -56,7 +56,7 @@ function go(page) {
       <!-- Prev -->
       <button
         type="button"
-        class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 text-sm font-medium text-neutral-600 transition-colors hover:border-neutral-300 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-neutral-200 disabled:hover:text-neutral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-neutral-800 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:text-neutral-100 dark:disabled:hover:border-neutral-800 dark:disabled:hover:text-neutral-400"
+        class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 text-sm font-medium text-black transition-colors hover:border-neutral-300 hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-neutral-200 disabled:hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-neutral-800 dark:text-white dark:hover:border-neutral-600 dark:hover:text-white dark:disabled:hover:border-neutral-800 dark:disabled:hover:text-black"
         :disabled="current === 1"
         :aria-label="store.t.projects.prev"
         @click="go(current - 1)"
@@ -72,7 +72,7 @@ function go(page) {
         <li v-for="(p, i) in pages" :key="`${p}-${i}`">
           <span
             v-if="p === '…'"
-            class="flex h-9 w-9 select-none items-center justify-center text-sm text-neutral-400 dark:text-neutral-600"
+            class="flex h-9 w-9 select-none items-center justify-center text-sm text-black dark:text-white"
             aria-hidden="true"
           >
             …
@@ -84,7 +84,7 @@ function go(page) {
             :class="
               p === current
                 ? 'bg-accent text-white'
-                : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800'
+                : 'text-black hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800'
             "
             :aria-current="p === current ? 'page' : undefined"
             :aria-label="`Page ${p}`"
@@ -98,7 +98,7 @@ function go(page) {
       <!-- Next -->
       <button
         type="button"
-        class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 text-sm font-medium text-neutral-600 transition-colors hover:border-neutral-300 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-neutral-200 disabled:hover:text-neutral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-neutral-800 dark:text-neutral-400 dark:hover:border-neutral-600 dark:hover:text-neutral-100 dark:disabled:hover:border-neutral-800 dark:disabled:hover:text-neutral-400"
+        class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 text-sm font-medium text-black transition-colors hover:border-neutral-300 hover:text-black disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-neutral-200 disabled:hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-neutral-800 dark:text-white dark:hover:border-neutral-600 dark:hover:text-white dark:disabled:hover:border-neutral-800 dark:disabled:hover:text-black"
         :disabled="current === total"
         :aria-label="store.t.projects.next"
         @click="go(current + 1)"

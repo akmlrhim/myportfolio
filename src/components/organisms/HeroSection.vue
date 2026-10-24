@@ -7,7 +7,7 @@ const store = useAppStore()
 
 <template>
   <section class="py-6 lg:py-10">
-    <h1 class="text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+    <h1 class="text-2xl lg:text-3xl font-bold text-black dark:text-white">
       {{ store.t.hero.greeting }}
     </h1>
 

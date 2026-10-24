@@ -56,7 +56,7 @@ function timeAgo(isoDate) {
       :animate="{ opacity: 1, y: 0 }"
       class="mt-8 rounded-xl border border-red-200 bg-red-50 p-6 text-center dark:border-red-900/50 dark:bg-red-950/30"
     >
-      <p class="text-sm text-red-700 dark:text-red-300">{{ store.t.activity.failedToLoad }}</p>
+      <p class="text-sm text-black dark:text-white">{{ store.t.activity.failedToLoad }}</p>
       <button
         @click="fetchCommits()"
         class="mt-3 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors"
@@ -72,7 +72,7 @@ function timeAgo(isoDate) {
       :animate="{ opacity: 1, y: 0 }"
       class="mt-8 rounded-xl border border-neutral-200 bg-neutral-50 p-8 text-center dark:border-neutral-800 dark:bg-neutral-900/50"
     >
-      <p class="text-sm text-neutral-600 dark:text-neutral-400">{{ store.t.activity.noCommits }}</p>
+      <p class="text-sm text-black dark:text-white">{{ store.t.activity.noCommits }}</p>
     </motion.div>
 
     <!-- Commit list (10 most recent) -->
@@ -88,26 +88,26 @@ function timeAgo(isoDate) {
             <!-- Header: repo + time -->
             <div class="flex items-start justify-between gap-3 mb-1.5">
               <span
-                class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+                class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-black dark:bg-neutral-800 dark:text-white"
               >
                 <span v-html="commitIcon" class="opacity-60" />
                 {{ commit.repo }}
               </span>
               <time
                 :datetime="commit.date"
-                class="shrink-0 text-[10px] text-neutral-500 dark:text-neutral-400"
+                class="shrink-0 text-[10px] text-black dark:text-white"
               >
                 {{ timeAgo(commit.date) }}
               </time>
             </div>
 
             <!-- Message (single line, CSS truncation at end) -->
-            <p class="truncate text-sm font-medium text-neutral-900 group-hover:text-neutral-700 dark:text-neutral-100 dark:group-hover:text-neutral-200">
+            <p class="truncate text-sm font-medium text-black group-hover:text-black dark:text-white dark:group-hover:text-white">
               {{ commit.message }}
             </p>
 
             <!-- Footer: SHA -->
-            <code class="mt-0.5 inline-block text-[10px] leading-none text-neutral-500 dark:text-neutral-400">
+            <code class="mt-0.5 inline-block text-[10px] leading-none text-black dark:text-white">
               {{ commit.sha }} &middot; {{ commit.owner }}
             </code>
           </a>

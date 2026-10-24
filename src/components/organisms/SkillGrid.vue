@@ -48,7 +48,7 @@ function transitionFor(i) {
 
   <p
     v-if="store.filteredSkills.length === 0"
-    class="text-sm text-neutral-600 dark:text-neutral-400 mt-4"
+    class="text-sm text-black dark:text-white mt-4"
   >
     No skills match this filter.
   </p>

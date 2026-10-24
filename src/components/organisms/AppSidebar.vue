@@ -30,7 +30,7 @@ const year = computed(() => new Date().getFullYear())
     <SidebarNav />
 
     <div class="p-4 border-t border-neutral-200 dark:border-neutral-800 hidden lg:block">
-      <p class="text-xs text-neutral-500 dark:text-neutral-500">&copy; {{ year }} {{ profile.name }}</p>
+      <p class="text-xs text-black dark:text-white">&copy; {{ year }} {{ profile.name }}</p>
     </div>
   </aside>
 </template>

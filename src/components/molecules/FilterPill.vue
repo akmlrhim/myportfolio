@@ -12,7 +12,7 @@ defineProps({
     :class="
       active
         ? 'bg-blue-600 text-white border-blue-600'
-        : 'border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400 dark:hover:border-neutral-600'
+        : 'border-neutral-300 dark:border-neutral-700 text-black dark:text-white hover:border-neutral-400 dark:hover:border-neutral-600'
     "
   >
     {{ label }}
@@ -21,7 +21,7 @@ defineProps({
       :class="
         active
           ? 'bg-white/20 text-white'
-          : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
+          : 'bg-neutral-200 dark:bg-neutral-700 text-black dark:text-white'
       "
     >
       {{ count }}
