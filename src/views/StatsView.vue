@@ -42,6 +42,9 @@ const wtData = computed(() => wt.data.value)
 const totalSeconds = computed(() => wtData.value?.totalSeconds ?? 0)
 
 const avgDailySeconds = computed(() => {
+  // Prefer WakaTime's official daily average so the card matches the dashboard
+  const official = wtData.value?.dailyAverageSeconds
+  if (typeof official === 'number' && official > 0) return official
   const days = (wtData.value?.daily ?? []).filter((d) => d.seconds > 0)
   if (!days.length) return null
   return Math.round(totalSeconds.value / days.length)
@@ -121,27 +124,19 @@ function ghLangColor(name) {
       </div>
 
       <template v-else>
-        <!-- Contribution skyline -->
-        <div v-if="gh.contributionsLoading.value" class="mt-4 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-black dark:text-white">
-            {{ store.t.stats.contributionGraph }}
-          </h3>
-          <!-- 18 weeks fit a 320px phone; the full 40 weeks appear from sm up -->
-          <div class="mt-4 flex gap-[3px] overflow-hidden">
-            <div
-              v-for="week in 40"
-              :key="week"
-              class="flex-col gap-[3px]"
-              :class="week <= 22 ? 'hidden sm:flex' : 'flex'"
-            >
-              <Skeleton
-                v-for="day in 7"
-                :key="day"
-                w="w-[10px]"
-                h="h-[10px]"
-                rounded="rounded-[2px]"
-              />
-            </div>
+        <!-- Contribution skyline: mirror the real card so loading swaps without a jump -->
+        <div v-if="gh.contributionsLoading.value" class="mt-4 rounded-2xl border border-neutral-200 p-3 sm:p-5 dark:border-neutral-800">
+          <div class="mb-3 hidden items-center justify-between gap-4 sm:flex">
+            <Skeleton w="w-64 max-w-full" h="h-4" rounded="rounded-md" />
+            <Skeleton w="w-[76px] shrink-0" h="h-9" rounded="rounded-md" />
+          </div>
+          <Skeleton w="w-full" h="h-[80px] sm:h-[400px]" rounded="rounded-lg" />
+          <div class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+            <Skeleton v-for="i in 4" :key="i" w="w-full" h="h-14" rounded="rounded-lg" />
+          </div>
+          <div class="mt-4 flex items-center justify-between gap-4">
+            <Skeleton w="w-56 max-w-full" h="h-3" rounded="rounded-sm" />
+            <Skeleton w="w-28 shrink-0" h="h-3" rounded="rounded-sm" />
           </div>
         </div>
 
@@ -208,10 +203,10 @@ function ghLangColor(name) {
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <template v-if="avgHm">
                 <template v-if="avgHm.h > 0">
-                  <AnimatedNumber :value="avgHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                  <AnimatedNumber :value="avgHm.h" :locale="locale" /><span class="font-sans text-base sm:text-lg">h</span>
                   {{ ' ' }}
                 </template>
-                <AnimatedNumber :value="avgHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
+                <AnimatedNumber :value="avgHm.m" :locale="locale" /><span class="font-sans text-base sm:text-lg">m</span>
               </template>
               <template v-else>--</template>
             </p>
@@ -220,21 +215,21 @@ function ghLangColor(name) {
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.totalThisWeek }}</p>
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <template v-if="weekHm.h > 0">
-                <AnimatedNumber :value="weekHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                <AnimatedNumber :value="weekHm.h" :locale="locale" /><span class="font-sans text-base sm:text-lg">h</span>
                 {{ ' ' }}
               </template>
-              <AnimatedNumber :value="weekHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
+              <AnimatedNumber :value="weekHm.m" :locale="locale" /><span class="font-sans text-base sm:text-lg">m</span>
             </p>
           </StaggerItem>
-          <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
+          <StaggerItem class="col-span-2 rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800 lg:col-span-1">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.allTimeCoding }}</p>
             <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <template v-if="allTimeHm">
                 <template v-if="allTimeHm.h > 0">
-                  <AnimatedNumber :value="allTimeHm.h" :locale="locale" /><span class="text-xl sm:text-2xl">h</span>
+                  <AnimatedNumber :value="allTimeHm.h" :locale="locale" /><span class="font-sans text-base sm:text-lg">h</span>
                   {{ ' ' }}
                 </template>
-                <AnimatedNumber :value="allTimeHm.m" :locale="locale" /><span class="text-xl sm:text-2xl">m</span>
+                <AnimatedNumber :value="allTimeHm.m" :locale="locale" /><span class="font-sans text-base sm:text-lg">m</span>
               </template>
               <template v-else>--</template>
             </p>

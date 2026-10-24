@@ -80,6 +80,7 @@ function normalize(raw) {
   return {
     ...aggregateDays(days),
     allTimeSeconds: null,
+    dailyAverageSeconds: null,
   }
 }
 
@@ -97,6 +98,9 @@ async function loadFromApi() {
     const allTime = await allTimeRes.json()
     const secs = allTime?.data?.total_seconds
     if (typeof secs === 'number') normalized.allTimeSeconds = Math.round(secs)
+    // WakaTime's own daily average, same number the dashboard shows
+    const avg = allTime?.data?.daily_average
+    if (typeof avg === 'number' && avg > 0) normalized.dailyAverageSeconds = Math.round(avg)
   }
   return normalized
 }

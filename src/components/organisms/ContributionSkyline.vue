@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { dayMs, resolvePalette } from '@/utils/contributionSkyline'
 import { useSkylineModel } from './skyline/useSkylineModel'
 import { useSkylineEngine } from './skyline/useSkylineEngine'
@@ -64,8 +64,18 @@ const DEFAULT_LABELS = {
 const L = computed(() => ({ ...DEFAULT_LABELS, ...props.labels }))
 
 // --- view state ---
+// Phones always get the flat GitHub-style strip: the full year fits there as a
+// dense grid, while the 3D skyline and its toggle need the room from sm up.
+const mobileMq = window.matchMedia('(max-width: 639px)')
+const isMobile = ref(mobileMq.matches)
+const onMobileChange = () => {
+  isMobile.value = mobileMq.matches
+}
+onMounted(() => mobileMq.addEventListener('change', onMobileChange))
+onBeforeUnmount(() => mobileMq.removeEventListener('change', onMobileChange))
+
 const innerView = ref(props.defaultView)
-const view = computed(() => props.view ?? innerView.value)
+const view = computed(() => (isMobile.value ? '2d' : (props.view ?? innerView.value)))
 const is3d = computed(() => view.value === '3d')
 function setView(v) {
   if (props.view === undefined) innerView.value = v
@@ -82,9 +92,9 @@ const theme = ref({ dark: false, swatches: ['#ebedf0', ...initialPal], accent: i
 // --- model + derived display values ---
 const { model, stats, nf, dfy, plural, noun, range, describe, statBlocks, titleNum, titleRest } = useSkylineModel(props, L)
 
-const corners = computed(() => props.showStats && width.value >= 640)
-const bigSize = computed(() => Math.round(Math.max(30, Math.min(56, width.value * 0.058))))
-const showRow = computed(() => props.showStats && !(is3d.value && corners.value))
+// Stats always live in the row below the graph: floating corner blocks drift
+// downward with the morphing stage height and collide with tall bars on desktop.
+const showRow = computed(() => props.showStats)
 const ease = 'cubic-bezier(0.65, 0, 0.35, 1)'
 const levelNames = computed(() => [L.value.none.replace('{unit}', plural.value), ...L.value.levels])
 const hint = computed(() => (is3d.value && props.orbit ? L.value.hintOrbit : L.value.hintFlat))
@@ -136,7 +146,7 @@ watch([active, model], async ([a]) => {
     ref="rootRef"
     class="relative w-full rounded-2xl border border-neutral-200 p-3 font-sans sm:p-5 dark:border-neutral-800"
   >
-    <header class="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+    <header class="mb-3 hidden flex-wrap items-center justify-between gap-x-4 gap-y-2 sm:flex">
       <h3 class="m-0 text-[15px] font-normal leading-snug text-black dark:text-white">
         <slot name="title">
           <span class="font-semibold tabular-nums">{{ titleNum }}</span>
@@ -144,7 +154,7 @@ watch([active, model], async ([a]) => {
         </slot>
       </h3>
       <div
-        v-if="showToggle"
+        v-if="showToggle && !isMobile"
         role="group"
         :aria-label="L.viewLabel"
         class="relative inline-flex rounded-md border border-neutral-200 p-0.5 dark:border-neutral-700"
@@ -173,7 +183,7 @@ watch([active, model], async ([a]) => {
       </div>
     </header>
 
-    <div class="relative rounded-lg border border-neutral-200 dark:border-neutral-800">
+    <div class="relative">
       <div class="relative px-3 pt-3 sm:px-4 sm:pt-4">
         <div
           ref="stageRef"
@@ -189,46 +199,6 @@ watch([active, model], async ([a]) => {
             :style="{ maxWidth: 'none', touchAction }"
           />
 
-          <template v-if="showStats && corners">
-            <div
-              :aria-hidden="!is3d"
-              class="pointer-events-none absolute top-1 right-1 flex flex-col items-end gap-5 transition-[opacity,transform] motion-reduce:transition-none"
-              :style="{
-                opacity: is3d ? 1 : 0,
-                transform: is3d ? 'translateY(0)' : 'translateY(-10px)',
-                transitionDuration: is3d ? '600ms' : '300ms',
-                transitionDelay: is3d ? Math.round(duration * 0.55) + 'ms' : '0ms',
-                transitionTimingFunction: ease,
-              }"
-            >
-              <StatBlock
-                v-for="b in statBlocks.slice(0, 2)"
-                :key="b.label"
-                v-bind="b"
-                :size="bigSize"
-                align="end"
-              />
-            </div>
-            <div
-              :aria-hidden="!is3d"
-              class="pointer-events-none absolute bottom-1 left-1 flex flex-col items-start gap-5 transition-[opacity,transform] motion-reduce:transition-none"
-              :style="{
-                opacity: is3d ? 1 : 0,
-                transform: is3d ? 'translateY(0)' : 'translateY(10px)',
-                transitionDuration: is3d ? '600ms' : '300ms',
-                transitionDelay: is3d ? Math.round(duration * 0.65) + 'ms' : '0ms',
-                transitionTimingFunction: ease,
-              }"
-            >
-              <StatBlock
-                v-for="b in statBlocks.slice(2, 4)"
-                :key="b.label"
-                v-bind="b"
-                :size="bigSize"
-                align="start"
-              />
-            </div>
-          </template>
         </div>
 
         <div
