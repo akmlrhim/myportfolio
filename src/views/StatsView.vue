@@ -148,8 +148,14 @@ function ghLangColor(name) {
           <h3 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
             {{ store.t.stats.contributionGraph }}
           </h3>
-          <div class="mt-4 flex gap-[3px]">
-            <div v-for="week in 40" :key="week" class="flex flex-col gap-[3px]">
+          <!-- 18 weeks fit a 320px phone; the full 40 weeks appear from sm up -->
+          <div class="mt-4 flex gap-[3px] overflow-hidden">
+            <div
+              v-for="week in 40"
+              :key="week"
+              class="flex-col gap-[3px]"
+              :class="week <= 22 ? 'hidden sm:flex' : 'flex'"
+            >
               <Skeleton
                 v-for="day in 7"
                 :key="day"
