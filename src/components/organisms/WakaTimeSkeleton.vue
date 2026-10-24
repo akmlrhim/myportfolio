@@ -2,7 +2,7 @@
 import Skeleton from '@/components/atoms/BaseSkeleton.vue'
 import StatCardSkeleton from '@/components/atoms/StatCardSkeleton.vue'
 
-const SUMMARY_CARDS = 6
+const SUMMARY_CARDS = 3
 
 // Bar heights approximate the real daily breakdown column heights
 // (h-40 minus the bottom day label + gap).
@@ -12,12 +12,7 @@ const BARS = ['h-16', 'h-28', 'h-10', 'h-32', 'h-20', 'h-36', 'h-24']
 <template>
   <div aria-busy="true" aria-label="Loading WakaTime stats">
     <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
-      <StatCardSkeleton
-        v-for="i in SUMMARY_CARDS"
-        :key="i"
-        order="label-first"
-        :class="{ 'col-span-2 lg:col-span-1': i === 5 }"
-      />
+      <StatCardSkeleton v-for="i in SUMMARY_CARDS" :key="i" order="label-first" />
     </div>
 
     <!-- Daily breakdown skeleton -->

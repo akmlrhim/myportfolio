@@ -26,15 +26,6 @@ function fmtHm(seconds) {
   return h > 0 ? `${h}h ${m}m` : `${m}m`
 }
 
-function fmtDate(dateStr) {
-  if (!dateStr) return '--'
-  return new Date(`${dateStr}T00:00:00`).toLocaleDateString(locale.value, {
-    month: 'long',
-    day: '2-digit',
-    year: 'numeric',
-  })
-}
-
 function fmtDayLabel(dateStr) {
   return new Date(`${dateStr}T00:00:00`).toLocaleDateString(locale.value, { weekday: 'short' })
 }
@@ -42,12 +33,6 @@ function fmtDayLabel(dateStr) {
 // --- WakaTime ---
 const wtData = computed(() => wt.data.value)
 const totalSeconds = computed(() => wtData.value?.totalSeconds ?? 0)
-
-const startDate = computed(() => wtData.value?.daily?.[0]?.date ?? null)
-const endDate = computed(() => {
-  const days = wtData.value?.daily ?? []
-  return days.length ? days[days.length - 1].date : null
-})
 
 const avgDailySeconds = computed(() => {
   const days = (wtData.value?.daily ?? []).filter((d) => d.seconds > 0)
@@ -66,17 +51,6 @@ const fmtSecondsLocale = (seconds) => {
   const m = Math.round((seconds % 3600) / 60)
   return h > 0 ? `${h.toLocaleString(locale.value)}h ${m}m` : `${m}m`
 }
-
-const bestDay = computed(() => {
-  const days = wtData.value?.daily ?? []
-  if (!days.length) return null
-  return days.reduce((a, b) => (b.seconds > a.seconds ? b : a), days[0])
-})
-
-const bestDayLabel = computed(() => {
-  const b = bestDay.value
-  return b ? `${fmtDate(b.date)} (${fmtHm(b.seconds)})` : '--'
-})
 
 const dailyBars = computed(() => {
   const days = wtData.value?.daily ?? []
@@ -226,33 +200,21 @@ function ghLangColor(name) {
         <!-- Summary cards -->
         <StaggerGroup class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
-            <p class="text-xs text-black dark:text-white">{{ store.t.stats.startDate }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">{{ fmtDate(startDate) }}</p>
-          </StaggerItem>
-          <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
-            <p class="text-xs text-black dark:text-white">{{ store.t.stats.endDate }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">{{ fmtDate(endDate) }}</p>
-          </StaggerItem>
-          <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.avgDailyTime }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">
+            <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <AnimatedNumber v-if="avgDailySeconds !== null" :value="avgDailySeconds" :format="fmtSecondsLocale" />
               <template v-else>--</template>
             </p>
           </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.totalThisWeek }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">
+            <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <AnimatedNumber :value="totalSeconds" :format="fmtHm" />
             </p>
           </StaggerItem>
-          <StaggerItem class="col-span-2 rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800 lg:col-span-1">
-            <p class="text-xs text-black dark:text-white">{{ store.t.stats.bestDay }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">{{ bestDayLabel }}</p>
-          </StaggerItem>
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
             <p class="text-xs text-black dark:text-white">{{ store.t.stats.allTimeCoding }}</p>
-            <p class="mt-1.5 text-base font-bold text-black dark:text-white">
+            <p class="mt-1.5 font-bebas text-3xl leading-none text-black dark:text-white sm:text-4xl">
               <AnimatedNumber v-if="allTimeSeconds !== null" :value="allTimeSeconds" :format="fmtSecondsLocale" />
               <template v-else>--</template>
             </p>
