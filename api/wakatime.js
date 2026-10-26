@@ -28,10 +28,17 @@ export default async function handler(req, res) {
   for (const k of Object.keys(forwarded)) {
     if (/^api_?key$|token|authorization|secret/i.test(k)) delete forwarded[k]
   }
-  const qs = new URLSearchParams(forwarded).toString()
+  const qs = new URLSearchParams(forwarded)
+  // WakaTime's summaries endpoint requires a period. Default to the range the
+  // site uses so a bare /summaries request works instead of leaking
+  // WakaTime's "Missing start date." error.
+  if (endpoint === 'summaries' && !qs.has('range') && !qs.has('start') && !qs.has('end')) {
+    qs.set('range', 'last_7_days')
+  }
+  const queryString = qs.toString()
 
   try {
-    const upstream = await fetch(`${UPSTREAM}${upstreamPath}${qs ? '?' + qs : ''}`, {
+    const upstream = await fetch(`${UPSTREAM}${upstreamPath}${queryString ? '?' + queryString : ''}`, {
       headers: {
         Authorization: `Basic ${Buffer.from(apiKey).toString('base64')}`,
       },
