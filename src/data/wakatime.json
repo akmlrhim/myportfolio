@@ -1,158 +1,35 @@
 {
-  "allTimeSeconds": 170000,
-  "totalSeconds": 72179,
+  "allTimeSeconds": 290416,
+  "dailyAverageSeconds": 13733,
+  "totalSeconds": 79690,
   "daily": [
     {
-      "date": "2026-10-08",
-      "seconds": 20301
+      "date": "2026-10-20",
+      "seconds": 24835
     },
     {
-      "date": "2026-10-09",
-      "seconds": 15792
+      "date": "2026-10-21",
+      "seconds": 20675
     },
     {
-      "date": "2026-10-10",
-      "seconds": 16151
+      "date": "2026-10-22",
+      "seconds": 12423
     },
     {
-      "date": "2026-10-11",
-      "seconds": 6443
+      "date": "2026-10-23",
+      "seconds": 5686
     },
     {
-      "date": "2026-10-12",
-      "seconds": 8012
+      "date": "2026-10-24",
+      "seconds": 14053
     },
     {
-      "date": "2026-10-13",
-      "seconds": 4500
+      "date": "2026-10-25",
+      "seconds": 0
     },
     {
-      "date": "2026-10-14",
-      "seconds": 980
-    }
-  ],
-  "languages": [
-    {
-      "name": "JavaScript",
-      "seconds": 21650,
-      "color": "#F7DF1E"
-    },
-    {
-      "name": "Vue",
-      "seconds": 19356,
-      "color": "#42B883"
-    },
-    {
-      "name": "PHP",
-      "seconds": 9027,
-      "color": "#777BB4"
-    },
-    {
-      "name": "Markdown",
-      "seconds": 6765,
-      "color": "#083FA1"
-    },
-    {
-      "name": "JSON",
-      "seconds": 4488,
-      "color": "#292929"
-    },
-    {
-      "name": "HTML",
-      "seconds": 2751,
-      "color": "#E34F26"
-    },
-    {
-      "name": "Other",
-      "seconds": 1473,
-      "color": "#7C8794"
-    },
-    {
-      "name": "Ezhil",
-      "seconds": 1364,
-      "color": "#2563eb"
-    },
-    {
-      "name": "Bash",
-      "seconds": 1028,
-      "color": "#4EAA25"
-    },
-    {
-      "name": "Blade Template",
-      "seconds": 1006,
-      "color": "#FF2D20"
-    },
-    {
-      "name": "CSS",
-      "seconds": 628,
-      "color": "#563D7C"
-    },
-    {
-      "name": "shell script",
-      "seconds": 528,
-      "color": "#2563eb"
-    },
-    {
-      "name": "git ignore",
-      "seconds": 518,
-      "color": "#2563eb"
-    },
-    {
-      "name": "Image (svg)",
-      "seconds": 413,
-      "color": "#2563eb"
-    },
-    {
-      "name": "YAML",
-      "seconds": 286,
-      "color": "#CB171E"
-    },
-    {
-      "name": "SQL",
-      "seconds": 273,
-      "color": "#2563eb"
-    },
-    {
-      "name": "Git Config",
-      "seconds": 264,
-      "color": "#F05032"
-    },
-    {
-      "name": "PowerShell",
-      "seconds": 147,
-      "color": "#2563eb"
-    },
-    {
-      "name": "TypeScript",
-      "seconds": 135,
-      "color": "#3178C6"
-    },
-    {
-      "name": "jsonc",
-      "seconds": 75,
-      "color": "#2563eb"
-    }
-  ],
-  "editors": [
-    {
-      "name": "Zed",
-      "seconds": 35440,
-      "color": "#2563eb"
-    },
-    {
-      "name": "Opencode Cli",
-      "seconds": 23556,
-      "color": "#2563eb"
-    },
-    {
-      "name": "VS Code",
-      "seconds": 13057,
-      "color": "#2563eb"
-    },
-    {
-      "name": "OpenCode",
-      "seconds": 125,
-      "color": "#2563eb"
+      "date": "2026-10-26",
+      "seconds": 2018
     }
   ]
 }

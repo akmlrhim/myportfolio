@@ -132,6 +132,7 @@ export default {
     contributionGraph: 'Contribution Graph',
     contributionsLastYear: '{n} contributions in the last year',
     contributionsUnavailable: 'Contribution data unavailable.',
+    cachedNote: 'Latest data could not be fetched, showing the stored backup data.',
   },
   skyline: {
     titleTemplate: '{n} {unit} in the last year',

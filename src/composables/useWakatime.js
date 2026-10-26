@@ -10,6 +10,8 @@ const SHARE_URL = statsConfig.wakatimeShareUrl
 
 const SUMMARIES_API = `${API_BASE}/summaries?range=last_7_days`
 const ALL_TIME_API = `${API_BASE}/all-time`
+const FETCH_TIMEOUT_MS = 8000
+const RETRY_DELAY_MS = 800
 
 const LANG_COLORS = {
   TypeScript: '#3178C6',
@@ -39,8 +41,10 @@ function aggregateDays(days) {
   const daily = []
 
   for (const d of days) {
+    // Sum raw floats and round once at the end; rounding per day would
+    // accumulate up to half a minute of drift over a week.
+    totalSeconds += d.grand_total?.total_seconds || 0
     const secs = Math.round(d.grand_total?.total_seconds || 0)
-    totalSeconds += secs
     daily.push({ date: d.range?.date ?? d.date, seconds: secs })
 
     for (const l of d.languages || []) {
@@ -84,29 +88,46 @@ function normalize(raw) {
   }
 }
 
-async function loadFromApi() {
-  const [summaryRes, allTimeRes] = await Promise.all([
-    fetch(SUMMARIES_API),
-    fetch(ALL_TIME_API).catch(() => null),
+async function fetchJson(url) {
+  // Timeout so a hanging mobile connection falls back instead of spinning
+  // the skeleton forever.
+  const res = await fetch(url, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) })
+  if (!res.ok) throw new Error(`WakaTime API: ${res.status}`)
+  return res.json()
+}
+
+async function loadFromApiOnce() {
+  const [summary, allTime] = await Promise.all([
+    fetchJson(SUMMARIES_API),
+    fetchJson(ALL_TIME_API).catch(() => null),
   ])
-  if (!summaryRes.ok) throw new Error(`WakaTime API: ${summaryRes.status}`)
 
-  const normalized = normalize(await summaryRes.json())
-  if (!normalized) return null
+  const normalized = normalize(summary)
+  if (!normalized) throw new Error('WakaTime API: empty response')
 
-  if (allTimeRes?.ok) {
-    const allTime = await allTimeRes.json()
-    const secs = allTime?.data?.total_seconds
-    if (typeof secs === 'number') normalized.allTimeSeconds = Math.round(secs)
-    // WakaTime's own daily average, same number the dashboard shows
-    const avg = allTime?.data?.daily_average
-    if (typeof avg === 'number' && avg > 0) normalized.dailyAverageSeconds = Math.round(avg)
-  }
+  const secs = allTime?.data?.total_seconds
+  if (typeof secs === 'number') normalized.allTimeSeconds = Math.round(secs)
+  // WakaTime's own daily average, same number the dashboard shows
+  const avg = allTime?.data?.daily_average
+  if (typeof avg === 'number' && avg > 0) normalized.dailyAverageSeconds = Math.round(avg)
   return normalized
 }
 
+async function loadFromApi() {
+  // One retry: a flaky mobile connection or a momentary WakaTime error should
+  // not silently drop the visitor onto week-old backup data.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await loadFromApiOnce()
+    } catch (err) {
+      if (attempt >= 2) throw err
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS))
+    }
+  }
+}
+
 async function loadFromShare() {
-  const res = await fetch(SHARE_URL)
+  const res = await fetch(SHARE_URL, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) })
   if (!res.ok) throw new Error(`WakaTime share: ${res.status}`)
   return normalize(await res.json())
 }
@@ -115,23 +136,26 @@ export function useWakatime() {
   const loading = ref(true)
   const error = ref(null)
   const data = ref(null)
+  // True when live fetch failed and the numbers come from a fallback source.
+  const stale = ref(false)
 
   onMounted(async () => {
     try {
       data.value = await loadFromApi()
     } catch (e) {
       error.value = e.message
-    }
-    if (!data.value && SHARE_URL) {
-      try {
-        data.value = await loadFromShare()
-      } catch (e) {
-        error.value = e.message
+      if (SHARE_URL) {
+        try {
+          data.value = await loadFromShare()
+        } catch (e2) {
+          error.value = e2.message
+        }
       }
+      if (!data.value) data.value = localData
+      stale.value = true
     }
-    if (!data.value) data.value = localData
     loading.value = false
   })
 
-  return { loading, error, data }
+  return { loading, error, data, stale }
 }

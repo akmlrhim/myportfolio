@@ -133,6 +133,7 @@ export default {
     contributionGraph: 'Grafik Kontribusi',
     contributionsLastYear: '{n} kontribusi dalam setahun terakhir',
     contributionsUnavailable: 'Data kontribusi tidak tersedia.',
+    cachedNote: 'Data terbaru gagal diambil, yang tampil adalah data cadangan yang tersimpan.',
   },
   skyline: {
     titleTemplate: '{n} {unit} dalam setahun terakhir',

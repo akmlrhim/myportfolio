@@ -183,6 +183,10 @@ function ghLangColor(name) {
       <WakaTimeSkeleton v-if="wt.loading.value" class="mt-4" />
 
       <template v-else-if="wtData">
+        <p v-if="wt.stale.value" class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+          {{ store.t.stats.cachedNote }}
+        </p>
+
         <!-- Summary cards -->
         <StaggerGroup class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
           <StaggerItem class="rounded-2xl border border-neutral-200 p-4 dark:border-neutral-800">
