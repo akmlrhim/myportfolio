@@ -1,5 +1,3 @@
-import { checkBotId } from 'botid/server'
-
 const UPSTREAM = 'https://api.wakatime.com/api/v1'
 
 const UPSTREAM_PATHS = {
@@ -11,21 +9,6 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET')
     return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  // BotID check. Blocks automated bots while allowing real users.
-  // Skipped outside Vercel: local dev has no OIDC token and the library
-  // only logs noise there.
-  if (process.env.VERCEL) {
-    try {
-      const verification = await checkBotId()
-      if (verification.isBot) {
-        res.setHeader('Cache-Control', 'no-store')
-        return res.status(403).json({ error: 'Access denied' })
-      }
-    } catch (err) {
-      console.warn('BotID check failed (OIDC token missing?):', err?.message ?? err)
-    }
   }
 
   const apiKey = process.env.WAKATIME_API

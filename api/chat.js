@@ -1,4 +1,3 @@
-import { checkBotId } from 'botid/server'
 import { buildSystemPrompt } from './_profile-context.js'
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
@@ -143,20 +142,6 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  // BotID check, same policy as api/wakatime.js. Skipped outside Vercel:
-  // local dev has no OIDC token and the library only logs noise there.
-  if (process.env.VERCEL) {
-    try {
-      const verification = await checkBotId()
-      if (verification.isBot) {
-        res.setHeader('Cache-Control', 'no-store')
-        return res.status(403).json({ error: 'Access denied' })
-      }
-    } catch (err) {
-      console.warn('BotID check failed (OIDC token missing?):', err?.message ?? err)
-    }
   }
 
   const apiKey = process.env.GROQ_API_KEY
