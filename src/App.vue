@@ -3,6 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import DefaultLayout from './components/templates/DefaultLayout.vue'
 import PageSkeleton from './components/organisms/PageSkeleton.vue'
+import AskAiWidget from './components/organisms/AskAiWidget.vue'
 import HomeSkeleton from './components/skeletons/HomeSkeleton.vue'
 import AboutSkeleton from './components/skeletons/AboutSkeleton.vue'
 import ProjectsSkeleton from './components/skeletons/ProjectsSkeleton.vue'
@@ -65,6 +66,7 @@ watch(
         <component :is="Component" v-else :key="route.path" />
       </Transition>
     </RouterView>
+    <AskAiWidget />
     <SpeedInsights />
   </DefaultLayout>
 </template>

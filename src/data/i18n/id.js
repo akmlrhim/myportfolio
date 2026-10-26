@@ -14,6 +14,18 @@ export default {
     openMenu: 'Buka menu',
     closeMenu: 'Tutup menu',
   },
+  chat: {
+    title: 'Tanya AI',
+    subtitle: 'Asisten portfolio Akmal Rahim',
+    greeting:
+      'Halo! Saya asisten AI di website ini. Tanya apa saja tentang Akmal: keahlian, pengalaman, atau proyeknya.',
+    placeholder: 'Tulis pertanyaan...',
+    send: 'Kirim',
+    clear: 'Hapus percakapan',
+    close: 'Tutup obrolan',
+    open: 'Buka asisten AI',
+    disclaimer: 'Jawaban dibuat oleh AI dan bisa tidak akurat.',
+  },
   hero: {
     greeting: 'Hai, Saya Akmal Rahim',
     based: 'Kalimantan Selatan',
@@ -106,7 +118,6 @@ export default {
     contributions: 'Kontribusi',
     thisWeek: 'Minggu Ini',
     perDay: '/ hari',
-    topLanguages: 'Bahasa Teratas',
     dailyAvg: 'Rata-rata Harian',
     editors: 'Editor',
     last7Days: '7 Hari Terakhir',

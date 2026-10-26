@@ -20,17 +20,16 @@ const wt = useWakatime()
 const locale = computed(() => (store.lang === 'id' ? 'id-ID' : 'en-US'))
 
 // --- shared helpers ---
-function fmtHm(seconds) {
-  const h = Math.floor(seconds / 3600)
-  const m = Math.round((seconds % 3600) / 60)
-  return h > 0 ? `${h}h ${m}m` : `${m}m`
+// Round total minutes first, then split. Rounding hours and minutes independently
+// could produce an inconsistent pair like "40h 60m".
+function splitHm(seconds) {
+  const totalMin = Math.round(seconds / 60)
+  return { h: Math.floor(totalMin / 60), m: totalMin % 60 }
 }
 
-// {h, m} parts for the summary cards, where the unit letters render smaller than the digits
-function splitHm(seconds) {
-  const h = Math.floor(seconds / 3600)
-  const m = Math.round((seconds % 3600) / 60)
-  return { h, m }
+function fmtHm(seconds) {
+  const { h, m } = splitHm(seconds)
+  return h > 0 ? `${h}h ${m}m` : `${m}m`
 }
 
 function fmtDayLabel(dateStr) {
@@ -66,18 +65,6 @@ const dailyBars = computed(() => {
     ...d,
     label: fmtDayLabel(d.date),
     height: Math.max((d.seconds / max) * 100, d.seconds > 0 ? 6 : 2),
-  }))
-})
-
-const maxWtLangSeconds = computed(() =>
-  Math.max(...(wtData.value?.languages ?? []).map((l) => l.seconds), 1),
-)
-
-const wtLanguages = computed(() => {
-  const total = totalSeconds.value || 1
-  return (wtData.value?.languages ?? []).slice(0, 8).map((l) => ({
-    ...l,
-    percent: Math.round((l.seconds / total) * 100),
   }))
 })
 
@@ -257,29 +244,6 @@ function ghLangColor(name) {
                 :transition="{ duration: 0.7, delay: i * 0.06, ease: [0.21, 0.47, 0.32, 0.98] }"
               />
               <span class="text-xs text-black dark:text-white">{{ d.label }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Languages -->
-        <div class="mt-6 rounded-2xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-black dark:text-white">
-            {{ store.t.stats.topLanguages }}
-          </h3>
-          <div class="mt-4 space-y-3">
-            <div v-for="l in wtLanguages" :key="l.name" class="flex items-center gap-3">
-              <span class="w-28 shrink-0 truncate text-sm text-black dark:text-white">{{ l.name }}</span>
-              <div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                <motion.div
-                  class="h-full rounded-full"
-                  :initial="{ width: 0 }"
-                  :whileInView="{ width: `${(l.seconds / maxWtLangSeconds) * 100}%` }"
-                  :viewport="{ once: true }"
-                  :transition="{ duration: 0.8, ease: 'easeOut' }"
-                  :style="{ backgroundColor: l.color }"
-                />
-              </div>
-              <span class="w-10 shrink-0 text-right text-xs text-black dark:text-white"><AnimatedNumber :value="l.percent" :decimals="0" suffix="%" :duration="0.8" /></span>
             </div>
           </div>
         </div>

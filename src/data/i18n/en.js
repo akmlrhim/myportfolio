@@ -14,6 +14,18 @@ export default {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
   },
+  chat: {
+    title: 'Ask AI',
+    subtitle: 'Akmal Rahim portfolio assistant',
+    greeting:
+      "Hi! I'm the AI assistant on this site. Ask me anything about Akmal: his skills, experience, or projects.",
+    placeholder: 'Type a question...',
+    send: 'Send',
+    clear: 'Clear conversation',
+    close: 'Close chat',
+    open: 'Open AI assistant',
+    disclaimer: 'Answers are AI generated and may be inaccurate.',
+  },
   hero: {
     greeting: "Hi, I'm Akmal Rahim",
     based: 'Kalimantan Selatan',
@@ -105,7 +117,6 @@ export default {
     contributions: 'Contributions',
     thisWeek: 'This Week',
     perDay: '/ day',
-    topLanguages: 'Top Languages',
     dailyAvg: 'Daily Average',
     editors: 'Editors',
     last7Days: 'Last 7 Days',

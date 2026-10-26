@@ -14,16 +14,16 @@ export default async function handler(req, res) {
   }
 
   // BotID check. Blocks automated bots while allowing real users.
-  // Falls back gracefully — the frontend loads local/embedded data on error.
-  try {
-    const verification = await checkBotId()
-    if (verification.isBot) {
-      res.setHeader('Cache-Control', 'no-store')
-      return res.status(403).json({ error: 'Access denied' })
-    }
-  } catch (err) {
-    // Vercel local dev or missing OIDC token: skip check, do not block the site.
-    if (process.env.VERCEL) {
+  // Skipped outside Vercel: local dev has no OIDC token and the library
+  // only logs noise there.
+  if (process.env.VERCEL) {
+    try {
+      const verification = await checkBotId()
+      if (verification.isBot) {
+        res.setHeader('Cache-Control', 'no-store')
+        return res.status(403).json({ error: 'Access denied' })
+      }
+    } catch (err) {
       console.warn('BotID check failed (OIDC token missing?):', err?.message ?? err)
     }
   }
