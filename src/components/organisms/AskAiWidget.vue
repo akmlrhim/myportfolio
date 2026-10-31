@@ -25,6 +25,16 @@ const visibleMessages = computed(() => [
   ...messages.value,
 ])
 
+// The model uses **bold** for emphasis (encouraged by the system prompt).
+// HTML is escaped first so v-html can never inject markup from the model.
+function renderAssistantText(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+}
+
 function scrollToBottom() {
   nextTick(() => {
     const el = listEl.value
@@ -118,14 +128,15 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
           :class="m.role === 'user' ? 'justify-end' : 'justify-start'"
         >
           <p
-            class="max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap"
+            class="max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed break-words whitespace-pre-wrap"
             :class="
               m.role === 'user'
                 ? 'rounded-br-md bg-accent text-white'
                 : 'rounded-bl-md bg-neutral-100 text-black dark:bg-neutral-800 dark:text-white'
             "
           >
-            {{ m.content }}
+            <span v-if="m.role === 'assistant'" v-html="renderAssistantText(m.content)" />
+            <template v-else>{{ m.content }}</template>
           </p>
         </div>
 

@@ -126,14 +126,15 @@ function sanitizeMessages(raw) {
   return msgs
 }
 
-// Models can still leak Markdown despite the system prompt. The chat bubbles
-// render plain text, so strip the common syntax server-side.
+// The chat bubbles render **bold** emphasis (encouraged by the system prompt),
+// so keep that and normalize __bold__ to it, but strip every other Markdown
+// syntax the model may still leak.
 // Exported for tests; the API entry point stays the default export.
 export function stripMarkdown(text) {
   return text
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '$1 ($2)') // [label](url) -> label (url)
-    .replace(/(\*\*|__)(.*?)\1/g, '$2') // **bold** / __bold__
-    .replace(/\*([^*\n]+)\*/g, '$1') // *italic*
+    .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1$2') // *italic*, sparing **bold**
+    .replace(/__([^_\n]+)__/g, '**$1**') // __bold__ -> **bold**
     .replace(/`([^`]*)`/g, '$1') // `code`
     .replace(/^#{1,6}\s+/gm, '') // headings
 }
